@@ -276,6 +276,21 @@ class TraditionalModeProcessor:
         
         return completed_devices, supplement_reasons
     
+    def _detect_application_scenario(self, task_requirements: Dict[str, Any]) -> str:
+        """检测应用场景：地面工业 vs 深空航天"""
+        # 从任务描述中提取关键词
+        task_desc = task_requirements.get("task_description", "").lower()
+        
+        # 地面场景关键词
+        ground_keywords = ["地面", "工业", "矿区", "巡检", "维护", "成本", "emc", "以太网", "5g", "工业级", "可维护"]
+        # 航天场景关键词  
+        space_keywords = ["深空", "航天", "探测", "抗辐射", "真空", "宇宙", "机械臂", "天体", "spacewire", "can总线"]
+        
+        ground_score = sum(1 for keyword in ground_keywords if keyword in task_desc)
+        space_score = sum(1 for keyword in space_keywords if keyword in task_desc)
+        
+        return "ground" if ground_score > space_score else "space"
+
     def _select_suitable_devices_with_reasons(self, library_devices: List[Dict], task_requirements: Dict[str, Any], category: str, extracted_count: int) -> tuple:
         """从器件库中选择合适的器件并提供选择理由"""
         selected = []
@@ -283,6 +298,9 @@ class TraditionalModeProcessor:
         
         if not library_devices:
             return selected, reasons
+        
+        # 检测应用场景
+        scenario = self._detect_application_scenario(task_requirements)
         
         # 根据类别和需求选择器件
         category_requirements = task_requirements.get("required_devices", {}).get(category, {})
@@ -292,117 +310,260 @@ class TraditionalModeProcessor:
             reason = f"自然语言输入中未明确提及{category}器件，根据任务需求从器件库中选择合适的器件"
             
             if category == "cpu":
-                # 优先选择航天专用CPU
-                space_qualified_cpus = [d for d in library_devices if d.get("parameters", {}).get("space_qualified", False)]
-                if space_qualified_cpus:
-                    # 选择抗辐射等级最高的航天专用CPU
-                    best_cpu = max(space_qualified_cpus, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
-                    selected.append(self._format_selected_device(best_cpu, f"选择航天专用处理器{best_cpu['name']}，抗辐射等级{best_cpu.get('parameters', {}).get('radiation_tolerance', 'N/A')}"))
+                if scenario == "ground":
+                    # 地面场景：优先选择工业级、价格较低的器件
+                    industrial_cpus = [d for d in library_devices if 
+                                     not d.get("parameters", {}).get("space_qualified", False) and
+                                     ("工业" in d.get("category", "") or "嵌入式" in d.get("category", ""))]
+                    if industrial_cpus:
+                        # 选择性能最高的工业级CPU
+                        best_cpu = max(industrial_cpus, key=lambda x: x.get("parameters", {}).get("frequency_mhz", 0))
+                        selected.append(self._format_selected_device(best_cpu, f"选择工业级处理器{best_cpu['name']}，在满足性能需求的条件下选用价格较低的器件（相比深空器件成本更低）"))
+                    else:
+                        # 如果没有明确的工业级器件，选择非航天专用的
+                        non_space_cpus = [d for d in library_devices if not d.get("parameters", {}).get("space_qualified", False)]
+                        if non_space_cpus:
+                            best_cpu = max(non_space_cpus, key=lambda x: x.get("parameters", {}).get("frequency_mhz", 0))
+                            selected.append(self._format_selected_device(best_cpu, f"选择高性能处理器{best_cpu['name']}，在满足应用需求的条件下选用价格较低的器件"))
+                        else:
+                            best_cpu = library_devices[0]
+                            selected.append(self._format_selected_device(best_cpu, f"选择处理器{best_cpu['name']}满足地面工业应用需求"))
                 else:
-                    # 选择抗辐射等级最高的CPU
-                    best_cpu = max(library_devices, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
-                    selected.append(self._format_selected_device(best_cpu, f"选择抗辐射处理器{best_cpu['name']}满足深空环境需求"))
+                    # 航天场景：优先选择航天专用CPU
+                    space_qualified_cpus = [d for d in library_devices if d.get("parameters", {}).get("space_qualified", False)]
+                    if space_qualified_cpus:
+                        # 选择抗辐射等级最高的航天专用CPU
+                        best_cpu = max(space_qualified_cpus, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
+                        selected.append(self._format_selected_device(best_cpu, f"选择航天专用处理器{best_cpu['name']}，抗辐射等级{best_cpu.get('parameters', {}).get('radiation_tolerance', 'N/A')}"))
+                    else:
+                        # 选择抗辐射等级最高的CPU
+                        best_cpu = max(library_devices, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
+                        selected.append(self._format_selected_device(best_cpu, f"选择抗辐射处理器{best_cpu['name']}满足深空环境需求"))
                     
             elif category == "gpu":
-                # 优先选择航天专用GPU或抗辐射FPGA
-                space_qualified_gpus = [d for d in library_devices if d.get("parameters", {}).get("space_qualified", False)]
-                if space_qualified_gpus:
-                    best_gpu = max(space_qualified_gpus, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
-                    selected.append(self._format_selected_device(best_gpu, f"选择航天专用图形处理器{best_gpu['name']}支持光谱数据处理"))
+                if scenario == "ground":
+                    # 地面场景：优先选择工业级AI加速器或高性能GPU
+                    industrial_gpus = [d for d in library_devices if 
+                                     not d.get("parameters", {}).get("space_qualified", False) and
+                                     ("AI" in d.get("category", "") or "加速器" in d.get("category", "") or "工业" in d.get("category", ""))]
+                    if industrial_gpus:
+                        best_gpu = max(industrial_gpus, key=lambda x: x.get("parameters", {}).get("compute_units", 0))
+                        selected.append(self._format_selected_device(best_gpu, f"选择工业级AI加速器{best_gpu['name']}，在满足AI处理需求的条件下选用价格较低的器件"))
+                    else:
+                        # 选择非航天专用的GPU/FPGA
+                        non_space_gpus = [d for d in library_devices if not d.get("parameters", {}).get("space_qualified", False)]
+                        if non_space_gpus:
+                            best_gpu = non_space_gpus[0]
+                            selected.append(self._format_selected_device(best_gpu, f"选择图形处理器{best_gpu['name']}支持地面工业图像处理"))
+                        else:
+                            selected.append(self._format_selected_device(library_devices[0], "选择图形处理器支持成像数据处理"))
                 else:
-                    # 选择抗辐射FPGA或AI加速器
-                    fpga_devices = [d for d in library_devices if "FPGA" in d.get("category", "") or "FPGA" in d.get("name", "")]
-                    if fpga_devices:
-                        best_gpu = max(fpga_devices, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
-                        selected.append(self._format_selected_device(best_gpu, f"选择抗辐射FPGA{best_gpu['name']}支持图像处理"))
-                    elif library_devices:
-                        selected.append(self._format_selected_device(library_devices[0], "选择图形处理器支持成像数据处理"))
+                    # 航天场景：优先选择航天专用GPU或抗辐射FPGA
+                    space_qualified_gpus = [d for d in library_devices if d.get("parameters", {}).get("space_qualified", False)]
+                    if space_qualified_gpus:
+                        best_gpu = max(space_qualified_gpus, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
+                        selected.append(self._format_selected_device(best_gpu, f"选择航天专用图形处理器{best_gpu['name']}支持光谱数据处理"))
+                    else:
+                        # 选择抗辐射FPGA或AI加速器
+                        fpga_devices = [d for d in library_devices if "FPGA" in d.get("category", "") or "FPGA" in d.get("name", "")]
+                        if fpga_devices:
+                            best_gpu = max(fpga_devices, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
+                            selected.append(self._format_selected_device(best_gpu, f"选择抗辐射FPGA{best_gpu['name']}支持图像处理"))
+                        elif library_devices:
+                            selected.append(self._format_selected_device(library_devices[0], "选择图形处理器支持成像数据处理"))
                     
             elif category == "memory":
-                # 优先选择航天专用内存
-                space_qualified_memory = [d for d in library_devices if d.get("parameters", {}).get("space_qualified", False)]
-                if space_qualified_memory:
-                    best_memory = max(space_qualified_memory, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
-                    selected.append(self._format_selected_device(best_memory, f"选择航天专用内存{best_memory['name']}保证数据可靠性"))
+                if scenario == "ground":
+                    # 地面场景：优先选择工业级内存，关注性价比
+                    industrial_memory = [d for d in library_devices if 
+                                       not d.get("parameters", {}).get("space_qualified", False) and
+                                       d.get("parameters", {}).get("ecc_support", False)]
+                    if industrial_memory:
+                        # 选择容量最大的工业级ECC内存
+                        best_memory = max(industrial_memory, key=lambda x: x.get("parameters", {}).get("capacity_gb", 0))
+                        selected.append(self._format_selected_device(best_memory, f"选择工业级ECC内存{best_memory['name']}，在满足可靠性需求的条件下选用价格较低的器件"))
+                    else:
+                        # 选择非航天专用的内存
+                        non_space_memory = [d for d in library_devices if not d.get("parameters", {}).get("space_qualified", False)]
+                        if non_space_memory:
+                            best_memory = max(non_space_memory, key=lambda x: x.get("parameters", {}).get("capacity_gb", 0))
+                            selected.append(self._format_selected_device(best_memory, f"选择高容量内存{best_memory['name']}满足地面工业数据处理需求"))
+                        elif library_devices:
+                            selected.append(self._format_selected_device(library_devices[0], "选择高性能内存支持数据处理"))
                 else:
-                    # 选择ECC内存中抗辐射等级最高的
-                    ecc_memory = [d for d in library_devices if d.get("parameters", {}).get("ecc_support", False)]
-                    if ecc_memory:
-                        best_memory = max(ecc_memory, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
-                        selected.append(self._format_selected_device(best_memory, f"选择ECC内存{best_memory['name']}保证数据可靠性"))
-                    elif library_devices:
-                        selected.append(self._format_selected_device(library_devices[0], "选择高性能内存支持数据处理"))
+                    # 航天场景：优先选择航天专用内存
+                    space_qualified_memory = [d for d in library_devices if d.get("parameters", {}).get("space_qualified", False)]
+                    if space_qualified_memory:
+                        best_memory = max(space_qualified_memory, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
+                        selected.append(self._format_selected_device(best_memory, f"选择航天专用内存{best_memory['name']}保证数据可靠性"))
+                    else:
+                        # 选择ECC内存中抗辐射等级最高的
+                        ecc_memory = [d for d in library_devices if d.get("parameters", {}).get("ecc_support", False)]
+                        if ecc_memory:
+                            best_memory = max(ecc_memory, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
+                            selected.append(self._format_selected_device(best_memory, f"选择ECC内存{best_memory['name']}保证数据可靠性"))
+                        elif library_devices:
+                            selected.append(self._format_selected_device(library_devices[0], "选择高性能内存支持数据处理"))
                     
             elif category == "storage":
-                # 优先选择航天专用存储
-                space_qualified_storage = [d for d in library_devices if d.get("parameters", {}).get("space_qualified", False)]
-                if space_qualified_storage:
-                    best_storage = max(space_qualified_storage, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
-                    selected.append(self._format_selected_device(best_storage, f"选择航天专用存储{best_storage['name']}保证数据安全"))
+                if scenario == "ground":
+                    # 地面场景：优先选择工业级大容量存储
+                    industrial_storage = [d for d in library_devices if 
+                                        not d.get("parameters", {}).get("space_qualified", False) and
+                                        ("工业" in d.get("category", "") or "eMMC" in d.get("category", "") or "SSD" in d.get("category", ""))]
+                    if industrial_storage:
+                        # 选择容量最大的工业级存储
+                        best_storage = max(industrial_storage, key=lambda x: x.get("parameters", {}).get("capacity_gb", 0))
+                        selected.append(self._format_selected_device(best_storage, f"选择工业级存储{best_storage['name']}，在满足大容量需求的条件下选用价格较低的器件"))
+                    else:
+                        # 选择非航天专用的大容量存储
+                        non_space_storage = [d for d in library_devices if not d.get("parameters", {}).get("space_qualified", False)]
+                        if non_space_storage:
+                            best_storage = max(non_space_storage, key=lambda x: x.get("parameters", {}).get("capacity_gb", 0))
+                            selected.append(self._format_selected_device(best_storage, f"选择大容量存储{best_storage['name']}满足地面工业数据存储需求"))
+                        else:
+                            best_storage = library_devices[0]
+                            selected.append(self._format_selected_device(best_storage, f"选择存储器件{best_storage['name']}支持数据记录"))
                 else:
-                    # 选择抗辐射等级最高的存储
-                    best_storage = max(library_devices, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
-                    selected.append(self._format_selected_device(best_storage, f"选择抗辐射存储{best_storage['name']}支持实时数据记录"))
+                    # 航天场景：优先选择航天专用存储
+                    space_qualified_storage = [d for d in library_devices if d.get("parameters", {}).get("space_qualified", False)]
+                    if space_qualified_storage:
+                        best_storage = max(space_qualified_storage, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
+                        selected.append(self._format_selected_device(best_storage, f"选择航天专用存储{best_storage['name']}保证数据安全"))
+                    else:
+                        # 选择抗辐射等级最高的存储
+                        best_storage = max(library_devices, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
+                        selected.append(self._format_selected_device(best_storage, f"选择抗辐射存储{best_storage['name']}支持实时数据记录"))
                     
             elif category == "communication":
-                # 优先选择深空通信或航天专用通信器件
-                space_comm = [d for d in library_devices if 
-                             d.get("parameters", {}).get("space_qualified", False) or 
-                             "深空" in d.get("category", "") or 
-                             "航天" in d.get("category", "") or
-                             "SpaceWire" in str(d.get("parameters", {}).get("interfaces", []))]
-                if space_comm:
-                    best_comm = max(space_comm, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
-                    selected.append(self._format_selected_device(best_comm, f"选择航天专用通信器件{best_comm['name']}适合深空环境"))
+                if scenario == "ground":
+                    # 地面场景：优先选择工业以太网、5G等地面通信方案
+                    ground_comm = [d for d in library_devices if 
+                                 not d.get("parameters", {}).get("space_qualified", False) and
+                                 ("以太网" in d.get("category", "") or "5G" in d.get("category", "") or 
+                                  "LoRa" in d.get("name", "") or "工业" in d.get("category", ""))]
+                    if ground_comm:
+                        best_comm = ground_comm[0]
+                        selected.append(self._format_selected_device(best_comm, f"选择地面工业通信器件{best_comm['name']}，在满足通信需求的条件下选用价格较低的器件"))
+                    else:
+                        # 选择非航天专用的通信器件
+                        non_space_comm = [d for d in library_devices if not d.get("parameters", {}).get("space_qualified", False)]
+                        if non_space_comm:
+                            best_comm = non_space_comm[0]
+                            selected.append(self._format_selected_device(best_comm, f"选择通信器件{best_comm['name']}支持地面数据传输"))
+                        elif library_devices:
+                            selected.append(self._format_selected_device(library_devices[0], "选择通信模块支持数据传输"))
                 else:
-                    # 选择LoRa或GNSS等适合的通信方案
-                    suitable_comm = [d for d in library_devices if "LoRa" in d.get("name", "") or "GNSS" in d.get("name", "")]
-                    if suitable_comm:
-                        best_comm = suitable_comm[0]
-                        selected.append(self._format_selected_device(best_comm, f"选择{best_comm['name']}作为备用通信方案"))
-                    elif library_devices:
-                        selected.append(self._format_selected_device(library_devices[0], "选择通信模块支持数据传输"))
+                    # 航天场景：优先选择深空通信或航天专用通信器件
+                    space_comm = [d for d in library_devices if 
+                                 d.get("parameters", {}).get("space_qualified", False) or 
+                                 "深空" in d.get("category", "") or 
+                                 "航天" in d.get("category", "") or
+                                 "SpaceWire" in str(d.get("parameters", {}).get("interfaces", []))]
+                    if space_comm:
+                        best_comm = max(space_comm, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
+                        selected.append(self._format_selected_device(best_comm, f"选择航天专用通信器件{best_comm['name']}适合深空环境"))
+                    else:
+                        # 选择LoRa或GNSS等适合的通信方案
+                        suitable_comm = [d for d in library_devices if "LoRa" in d.get("name", "") or "GNSS" in d.get("name", "")]
+                        if suitable_comm:
+                            best_comm = suitable_comm[0]
+                            selected.append(self._format_selected_device(best_comm, f"选择{best_comm['name']}作为备用通信方案"))
+                        elif library_devices:
+                            selected.append(self._format_selected_device(library_devices[0], "选择通信模块支持数据传输"))
                     
             elif category == "controllers":
-                # 优先选择航天专用控制器
-                space_controllers = [d for d in library_devices if d.get("parameters", {}).get("space_qualified", False)]
-                if space_controllers:
-                    best_controller = max(space_controllers, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
-                    selected.append(self._format_selected_device(best_controller, f"选择航天专用控制器{best_controller['name']}支持容错实时控制"))
+                if scenario == "ground":
+                    # 地面场景：优先选择工业级控制器
+                    industrial_controllers = [d for d in library_devices if 
+                                            not d.get("parameters", {}).get("space_qualified", False) and
+                                            ("工业" in d.get("category", "") or "嵌入式" in d.get("category", ""))]
+                    if industrial_controllers:
+                        best_controller = max(industrial_controllers, key=lambda x: x.get("parameters", {}).get("frequency_mhz", 0))
+                        selected.append(self._format_selected_device(best_controller, f"选择工业级控制器{best_controller['name']}，在满足控制精度需求的条件下选用价格较低的器件"))
+                    else:
+                        # 选择非航天专用的控制器
+                        non_space_controllers = [d for d in library_devices if not d.get("parameters", {}).get("space_qualified", False)]
+                        if non_space_controllers:
+                            best_controller = non_space_controllers[0]
+                            selected.append(self._format_selected_device(best_controller, f"选择控制器{best_controller['name']}支持地面工业控制"))
+                        else:
+                            best_controller = library_devices[0]
+                            selected.append(self._format_selected_device(best_controller, f"选择控制器{best_controller['name']}支持系统控制"))
                 else:
-                    # 选择抗辐射等级最高的控制器
-                    best_controller = max(library_devices, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
-                    selected.append(self._format_selected_device(best_controller, f"选择抗辐射控制器{best_controller['name']}支持精确控制"))
+                    # 航天场景：优先选择航天专用控制器
+                    space_controllers = [d for d in library_devices if d.get("parameters", {}).get("space_qualified", False)]
+                    if space_controllers:
+                        best_controller = max(space_controllers, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
+                        selected.append(self._format_selected_device(best_controller, f"选择航天专用控制器{best_controller['name']}支持容错实时控制"))
+                    else:
+                        # 选择抗辐射等级最高的控制器
+                        best_controller = max(library_devices, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
+                        selected.append(self._format_selected_device(best_controller, f"选择抗辐射控制器{best_controller['name']}支持精确控制"))
                     
             elif category == "sensors":
-                # 优先选择航天专用传感器
-                space_sensors = [d for d in library_devices if d.get("parameters", {}).get("space_qualified", False)]
-                if space_sensors:
-                    best_sensor = max(space_sensors, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
-                    selected.append(self._format_selected_device(best_sensor, f"选择航天专用传感器{best_sensor['name']}"))
+                if scenario == "ground":
+                    # 地面场景：优先选择工业级传感器
+                    industrial_sensors = [d for d in library_devices if 
+                                        not d.get("parameters", {}).get("space_qualified", False) and
+                                        ("工业" in d.get("category", "") or "MEMS" in d.get("category", ""))]
+                    if industrial_sensors:
+                        best_sensor = industrial_sensors[0]
+                        selected.append(self._format_selected_device(best_sensor, f"选择工业级传感器{best_sensor['name']}，在满足检测精度需求的条件下选用价格较低的器件"))
+                    else:
+                        # 选择非航天专用的传感器
+                        non_space_sensors = [d for d in library_devices if not d.get("parameters", {}).get("space_qualified", False)]
+                        if non_space_sensors:
+                            best_sensor = non_space_sensors[0]
+                            selected.append(self._format_selected_device(best_sensor, f"选择传感器{best_sensor['name']}支持地面工业检测"))
+                        else:
+                            best_sensor = library_devices[0]
+                            selected.append(self._format_selected_device(best_sensor, f"选择传感器{best_sensor['name']}支持数据采集"))
                 else:
-                    # 选择抗辐射等级最高的传感器
-                    best_sensor = max(library_devices, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
-                    selected.append(self._format_selected_device(best_sensor, f"选择抗辐射传感器{best_sensor['name']}"))
+                    # 航天场景：优先选择航天专用传感器
+                    space_sensors = [d for d in library_devices if d.get("parameters", {}).get("space_qualified", False)]
+                    if space_sensors:
+                        best_sensor = max(space_sensors, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
+                        selected.append(self._format_selected_device(best_sensor, f"选择航天专用传感器{best_sensor['name']}"))
+                    else:
+                        # 选择抗辐射等级最高的传感器
+                        best_sensor = max(library_devices, key=lambda x: self._extract_radiation_tolerance(x.get("parameters", {}).get("radiation_tolerance", "0")))
+                        selected.append(self._format_selected_device(best_sensor, f"选择抗辐射传感器{best_sensor['name']}"))
                     
             reasons.append(reason)
             
         else:
             # 如果已有提取的器件，可以选择性补充
             if len(library_devices) > 1:
-                # 选择不同类型的器件作为备选，优先选择航天专用
-                space_devices = [d for d in library_devices if d.get("parameters", {}).get("space_qualified", False)]
-                if space_devices and len(space_devices) >= 1:
-                    for i, device in enumerate(space_devices[:2]):
-                        reason = f"补充航天专用{category}器件{device['name']}作为备选方案"
-                        selected.append(self._format_selected_device(device, reason))
-                        reasons.append(reason)
-                else:
-                    for i, device in enumerate(library_devices[:2]):
-                        if i < 2:  # 最多补充2个
-                            reason = f"补充不同规格的{category}器件作为备选方案，提供更多配置选择"
+                # 根据场景选择不同类型的器件作为备选
+                if scenario == "ground":
+                    # 地面场景优先选择非航天专用器件
+                    non_space_devices = [d for d in library_devices if not d.get("parameters", {}).get("space_qualified", False)]
+                    if non_space_devices and len(non_space_devices) >= 1:
+                        for i, device in enumerate(non_space_devices[:2]):
+                            reason = f"补充工业级{category}器件{device['name']}作为备选方案，在满足应用需求的条件下选用价格较低的器件"
                             selected.append(self._format_selected_device(device, reason))
                             reasons.append(reason)
+                    else:
+                        for i, device in enumerate(library_devices[:2]):
+                            if i < 2:  # 最多补充2个
+                                reason = f"补充不同规格的{category}器件作为备选方案，提供更多配置选择"
+                                selected.append(self._format_selected_device(device, reason))
+                                reasons.append(reason)
+                else:
+                    # 航天场景优先选择航天专用器件
+                    space_devices = [d for d in library_devices if d.get("parameters", {}).get("space_qualified", False)]
+                    if space_devices and len(space_devices) >= 1:
+                        for i, device in enumerate(space_devices[:2]):
+                            reason = f"补充航天专用{category}器件{device['name']}作为备选方案"
+                            selected.append(self._format_selected_device(device, reason))
+                            reasons.append(reason)
+                    else:
+                        for i, device in enumerate(library_devices[:2]):
+                            if i < 2:  # 最多补充2个
+                                reason = f"补充不同规格的{category}器件作为备选方案，提供更多配置选择"
+                                selected.append(self._format_selected_device(device, reason))
+                                reasons.append(reason)
         
         return selected, reasons
     
