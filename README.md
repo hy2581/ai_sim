@@ -1,58 +1,99 @@
-# 独立芯粒性能测试系统
+# 航空航天微系统仿真平台
 
-🚀 **创新理念**: 取消芯粒间互联通信，让每个芯粒独立运行计算任务，专注测试单芯粒性能极限。
+## 项目简介
 
-## 📁 核心文件
+这是一个AI增强的航空航天微系统需求定义与验证平台，专门用于航空航天领域的微系统仿真和验证。该平台集成了人工智能技术，能够自动化地进行任务需求分析、设备需求映射和仿真验证。
 
-| 文件 | 功能 |
-|------|------|
-| `independent_sim_runner.py` | **主程序** - 完整测试流水线 |
-| `independent_chiplet_parser.py` | AI自然语言解析器 |
-| `independent_sim_generator.py` | 仿真配置生成器 |
-| `independent_cpu_task.cpp` | CPU独立计算任务 |
-| `independent_gpu_task.cu` | GPU独立计算任务 |
-| `performance_analyzer.py` | 性能分析器 |
-| `Makefile` | 编译脚本 |
+## 主要功能
 
-## 🎯 快速开始
+- **任务需求分析**: 自动分析航空航天任务的具体需求
+- **设备需求映射**: 将任务需求映射到具体的硬件设备需求
+- **仿真验证**: 对系统设计进行仿真验证
+- **AI增强**: 集成AI技术提升仿真精度和效率
+- **多设备支持**: 支持CPU、GPU、传感器、通信等多种设备仿真
 
-```bash
-# 1. 运行完整测试
-make run_test
+## 项目结构
 
-# 或者自定义测试
-python3 independent_sim_runner.py "测试16核ARM CPU和40SM GPU，运行计算密集型任务120秒"
+```
+├── main.py                    # 主程序入口
+├── run_ai_simulation.py       # AI增强仿真入口
+├── demo.py                    # 演示程序
+├── config/                    # 配置文件目录
+│   ├── requirements.txt       # Python依赖
+│   ├── aerospace_simulation.yml # 仿真配置
+│   └── Makefile*             # 编译配置
+├── core/                      # 核心功能模块
+│   ├── ai_integration/        # AI集成模块
+│   ├── generators/            # 场景生成器
+│   ├── main_control/          # 主控制模块
+│   ├── parsers/              # 解析器
+│   ├── requirements/         # 需求分析模块
+│   └── verification/         # 验证模块
+├── simulators/               # 仿真器
+│   ├── devices/              # 设备仿真器
+│   └── environment/          # 环境仿真器
+└── analysis/                 # 分析工具
+    ├── performance/          # 性能分析
+    └── reports/             # 报告生成
 ```
 
-## 📊 支持的任务类型
+## 安装和使用
 
-- **CPU**: 加减乘除、复杂函数、内存操作
-- **GPU**: 并行运算、矩阵运算、向量运算
+### 环境要求
 
-## 🔧 编译和测试
+- Python 3.8+
+- GCC/G++ (用于编译C++仿真器)
+- CUDA (可选，用于GPU仿真)
+
+### 安装依赖
 
 ```bash
-# 编译
-make clean && make
+# 安装Python依赖
+pip install -r config/requirements.txt
 
-# 单独测试
-make test_cpu    # 测试CPU任务
-make test_gpu    # 测试GPU任务
-
-# 清理
-make clean
+# 编译C++仿真器 (可选)
+cd config
+make -f Makefile_aerospace
 ```
 
-## 📈 性能指标
+### 运行方式
 
-- 吞吐量 (ops/sec)
-- 延迟 (ns)  
-- 利用率 (%)
-- GPU/CPU性能比
+#### 1. 标准模式
+```bash
+python main.py
+```
 
-## 🎨 特色功能
+例如：
+```bash
+python3 main.py --mode ai --input "这款应用于深空探测的微型系统，高度集成于探测器机械臂末端，能够自主执行对天体表面的“接触-采样-原位分析”任务：它先以微型刷扫装置清除目标点浮尘，再驱动微型压电钻头破碎岩石，并利用气体流将颗粒样本送入内置分析舱，最终通过微型光谱仪实时解析其物质成分。该系统的卓越能力源于其精密的MEMS器件，包括用于物质识别的微型激光拉曼探头与高光谱成像仪、执行动作的压电钻头与MEMS气体泵阀、负责控制与数据处理的抗辐射片上系统（SoC），所有这些单 元均通过三维异构集成技术封装在一个轻巧坚固的陶瓷基框架内" --api-key "<YOUR_API_KEY>"
+```
 
-✅ **无通信开销** - 纯净性能测试  
-✅ **AI驱动配置** - 自然语言生成测试  
-✅ **多维度分析** - 全面性能评估  
-✅ **可视化报告** - 自动生成图表
+
+
+#### 2. AI增强模式
+```bash
+python run_ai_simulation.py
+```
+
+#### 3. 演示模式
+```bash
+python demo.py
+```
+
+### 配置说明
+
+- 修改 `config/aerospace_simulation.yml` 来调整仿真参数
+- 在 `config/requirements.txt` 中管理Python依赖
+- 使用 `config/Makefile_aerospace` 编译C++组件
+
+## 开发说明
+
+该项目采用模块化设计，主要模块包括：
+
+- **核心模块** (`core/`): 包含需求分析、AI集成、验证等核心功能
+- **仿真器** (`simulators/`): 各种设备和环境的仿真实现
+- **分析工具** (`analysis/`): 性能分析和报告生成工具
+
+## 许可证
+
+本项目仅供学习和研究使用。

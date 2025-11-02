@@ -1,0 +1,61 @@
+# Enhanced Makefile for Aerospace Microsystem Simulation
+# Project environment
+BENCHMARK_ROOT=$(SIMULATOR_ROOT)/benchmark/ai_sim_gen
+
+# Compiler environment
+CC=g++
+NVCC=nvcc
+CFLAGS=-Wall -O3 -std=c++11 -fopenmp -DAEROSPACE_FEATURES
+NVCCFLAGS=-O3 -std=c++11 -DAEROSPACE_FEATURES
+LDFLAGS=-lm -lgomp
+CUDA_LDFLAGS=-lm -lcuda -lcudart
+
+# Source files
+CPU_SRCS=independent_cpu_task.cpp aerospace_cpu_task.cpp
+GPU_SRCS=independent_gpu_task.cu aerospace_gpu_task.cu
+SENSOR_SRCS=sensor_simulator.cpp
+COMM_SRCS=communication_simulator.cpp
+CONTROLLER_SRCS=controller_simulator.cpp
+
+# Directories
+OBJ_DIR=obj
+BIN_DIR=bin
+LOG_DIR=logs
+
+.PHONY: all clean setup
+
+all: setup aerospace_cpu_task sensor_simulator
+
+setup:
+	@mkdir -p $(OBJ_DIR) $(BIN_DIR) $(LOG_DIR)
+	@echo "Setting up aerospace simulation environment..."
+
+# CPU compilation rules
+%.o: %.cpp
+	@echo "Compiling: $<"
+	$(CC) $(CFLAGS) -c $< -o $(OBJ_DIR)/$@
+
+aerospace_cpu_task: aerospace_cpu_task.o
+	@echo "Linking aerospace CPU task: $@"
+	$(CC) $(OBJ_DIR)/$< $(LDFLAGS) -o $(BIN_DIR)/$@
+
+sensor_simulator: sensor_simulator.o
+	@echo "Linking sensor simulator: $@"
+	$(CC) $(OBJ_DIR)/$< $(LDFLAGS) -o $(BIN_DIR)/$@
+
+# GPU compilation rules (if CUDA is available)
+%.cu.o: %.cu
+	@echo "Compiling CUDA: $<"
+	$(NVCC) $(NVCCFLAGS) -c $< -o $(OBJ_DIR)/$@
+
+aerospace_gpu_task: aerospace_gpu_task.cu.o
+	@echo "Linking aerospace GPU task: $@"
+	$(NVCC) $(OBJ_DIR)/$< $(CUDA_LDFLAGS) -o $(BIN_DIR)/$@
+
+clean:
+	@echo "Cleaning build artifacts..."
+	rm -rf $(OBJ_DIR)/* $(BIN_DIR)/* $(LOG_DIR)/*
+
+test_aerospace:
+	@echo "Running aerospace simulation test..."
+	python3 aerospace_sim_runner.py

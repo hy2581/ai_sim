@@ -1,0 +1,137 @@
+# Auto-generated aerospace microsystem simulation configuration
+# System: 16-core ARM CPU, 120SM ampere GPU
+# Memory: 32GB DDR4
+# Aerospace Components: 2 sensors, 1 comm, 1 controllers
+# Test Duration: 60 seconds
+# Environment: low radiation, 25.0°C
+
+# Phase 1 configuration - Core computing components
+phase1:
+  # CPU Task with Aerospace Reliability Features
+  - cmd: "$BENCHMARK_ROOT/bin/aerospace_cpu_task"
+    args: ["0", "1000000", "1024", 
+           "true", 
+           "1e-12"]
+    log: "aerospace_cpu_task.log"
+    is_to_stdout: true
+    clock_rate: 1
+    environment:
+      radiation_level: "low"
+      temperature_c: 25.0
+      
+  # GPU Tasks with Aerospace Reliability Features
+  
+  - cmd: "$BENCHMARK_ROOT/bin/aerospace_gpu_task"
+    args: ["1", "1000000", "1024",
+           "true",
+           "2"]
+    log: "aerospace_gpu_task_1.log"
+    is_to_stdout: true
+    clock_rate: 1
+    pre_copy: "$SIMULATOR_ROOT/gpgpu-sim/configs/tested-cfgs/SM2_GTX480/*"
+    environment:
+      radiation_level: "low"
+      temperature_c: 25.0
+  
+  - cmd: "$BENCHMARK_ROOT/bin/aerospace_gpu_task"
+    args: ["2", "1000000", "1024",
+           "true",
+           "2"]
+    log: "aerospace_gpu_task_2.log"
+    is_to_stdout: true
+    clock_rate: 1
+    pre_copy: "$SIMULATOR_ROOT/gpgpu-sim/configs/tested-cfgs/SM2_GTX480/*"
+    environment:
+      radiation_level: "low"
+      temperature_c: 25.0
+  
+  - cmd: "$BENCHMARK_ROOT/bin/aerospace_gpu_task"
+    args: ["3", "1000000", "1024",
+           "true",
+           "2"]
+    log: "aerospace_gpu_task_3.log"
+    is_to_stdout: true
+    clock_rate: 1
+    pre_copy: "$SIMULATOR_ROOT/gpgpu-sim/configs/tested-cfgs/SM2_GTX480/*"
+    environment:
+      radiation_level: "low"
+      temperature_c: 25.0
+  
+
+# Phase 2 configuration - Aerospace-specific components
+phase2:
+  # Sensor Simulation Tasks
+  
+  - cmd: "$BENCHMARK_ROOT/bin/sensor_simulator"
+    args: ["IMU", "1000.0", 
+           "16", "99.5"]
+    log: "sensor_IMU.log"
+    is_to_stdout: true
+    clock_rate: 1
+    power_profile:
+      max_power_mw: 10.0
+      idle_power_mw: 1.0
+  
+  - cmd: "$BENCHMARK_ROOT/bin/sensor_simulator"
+    args: ["environmental", "1000.0", 
+           "16", "99.5"]
+    log: "sensor_environmental.log"
+    is_to_stdout: true
+    clock_rate: 1
+    power_profile:
+      max_power_mw: 10.0
+      idle_power_mw: 1.0
+  
+  
+  # Communication System Tasks
+  
+  - cmd: "$BENCHMARK_ROOT/bin/communication_simulator"
+    args: ["RF_transceiver", "S_band", 
+           "100.0", "5.0"]
+    log: "comm_RF_transceiver.log"
+    is_to_stdout: true
+    clock_rate: 1
+    power_profile:
+      max_power_w: 5.0
+      idle_power_w: 0.25
+  
+  
+  # Control System Tasks
+  
+  - cmd: "$BENCHMARK_ROOT/bin/controller_simulator"
+    args: ["attitude_controller", "100.0", 
+           "10.0", "0.1"]
+    log: "controller_attitude_controller.log"
+    is_to_stdout: true
+    clock_rate: 1
+    power_profile:
+      max_power_w: 2.0
+      idle_power_w: 0.4
+  
+
+# Phase 3 configuration - Comprehensive analysis
+phase3:
+  # Aerospace Performance Analyzer with Power and AI Assessment
+  - cmd: "python3"
+    args: ["$BENCHMARK_ROOT/aerospace_performance_analyzer.py", "--comprehensive-analysis"]
+    log: "aerospace_performance_analysis.log"
+    is_to_stdout: true
+    clock_rate: 1
+
+# Configuration metadata
+test_config:
+  test_type: "aerospace_microsystem_simulation"
+  cpu_task_type: "compute_intensive"
+  gpu_task_type: "parallel_compute"
+  test_duration_sec: 60
+  performance_metrics: ['throughput', 'latency', 'power', 'utilization', 'reliability', 'thermal']
+  aerospace_features:
+    radiation_hardening: true
+    temperature_range: (-55, 125)
+    redundancy_level: 2
+    ecc_enabled: true
+  environment:
+    radiation_level: "low"
+    temperature_c: 25.0
+    vibration_level: "low"
+    vacuum_environment: false
