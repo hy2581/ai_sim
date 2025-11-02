@@ -86,7 +86,7 @@ class DeepSeekAPIClient:
             # 尝试解析JSON响应
             try:
                 requirements = json.loads(response)
-                print("✅ 需求解析成功")
+                print("需求解析成功")
                 return requirements
             except json.JSONDecodeError:
                 # 如果不是标准JSON，尝试提取JSON部分
@@ -94,14 +94,14 @@ class DeepSeekAPIClient:
                 json_match = re.search(r'\{.*\}', response, re.DOTALL)
                 if json_match:
                     requirements = json.loads(json_match.group())
-                    print("✅ 需求解析成功（从文本中提取）")
+                    print("需求解析成功（从文本中提取）")
                     return requirements
                 else:
-                    print("⚠️ 无法解析JSON，使用默认需求")
+                    print("无法解析JSON，使用默认需求")
                     return self._get_default_requirements()
                     
         except Exception as e:
-            print(f"❌ API调用失败: {e}")
+            print(f"API调用失败: {e}")
             print("使用默认需求配置")
             return self._get_default_requirements()
     

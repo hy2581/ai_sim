@@ -19,6 +19,7 @@ from core.requirements.task_requirements_analyzer import TaskRequirementsAnalyze
 from core.requirements.device_requirements_mapper import DeviceRequirementsMapper
 from core.verification.simulation_verifier import SimulationVerifier
 from core.ai_integration.ai_enhanced_simulator import AIEnhancedSimulator
+from core.traditional_mode_processor import TraditionalModeProcessor
 
 
 class EnhancedAerospaceSimulationPlatform:
@@ -183,10 +184,10 @@ class EnhancedAerospaceSimulationPlatform:
 def main():
     """主函数"""
     parser = argparse.ArgumentParser(description='AI增强的航空航天微系统需求定义与验证平台')
-    parser.add_argument('--mode', choices=['ai', 'complete', 'task', 'device', 'verify'], 
+    parser.add_argument('--mode', choices=['ai', 'complete', 'traditional', 'task', 'device', 'verify'], 
                        default='ai', help='运行模式')
     parser.add_argument('--input', type=str, 
-                       help='自然语言需求描述（AI模式）')
+                       help='自然语言需求描述（AI模式或传统模式）')
     parser.add_argument('--api-key', type=str, 
                        help='DeepSeek API密钥')
     parser.add_argument('--description', type=str, 
@@ -201,22 +202,42 @@ def main():
     if args.mode == 'ai':
         # AI增强模式 - 新的主要模式
         if not args.input:
-            print("❌ AI模式需要提供 --input 参数")
+            print("AI模式需要提供 --input 参数")
             print("示例: python3 main.py --mode ai --input \"我需要一个用于无人机导航的微系统\"")
             return
         
-        print("🤖 启动AI增强模式")
+        print("启动AI增强模式")
         simulator = AIEnhancedSimulator(args.api_key)
         results = simulator.process_natural_language_input(args.input)
         
         if results['status'] == 'completed':
-            print("✅ AI增强仿真完成！报告已自动生成。")
+            print("AI增强仿真完成！报告已自动生成。")
         else:
-            print(f"❌ AI增强仿真失败: {results.get('error', 'Unknown error')}")
+            print(f"AI增强仿真失败: {results.get('error', 'Unknown error')}")
+    
+    elif args.mode == 'traditional':
+        # 传统模式 - 新增的传统模式处理
+        if not args.input:
+            print("传统模式需要提供 --input 参数")
+            print("示例: python3 main.py --mode traditional --input \"深空探测微型系统描述\" --api-key \"your-api-key\"")
+            return
+        
+        print("启动传统模式")
+        processor = TraditionalModeProcessor(args.api_key)
+        results = processor.process_traditional_mode(args.input)
+        
+        if results['status'] == 'completed':
+            print("传统模式处理完成！所有文件已生成。")
+            print("生成的文件:")
+            print("   - 任务需求.json")
+            print("   - 当前器件.json") 
+            print("   - 传统模式分析报告.md")
+        else:
+            print(f"传统模式处理失败: {results.get('error', 'Unknown error')}")
     
     else:
-        # 传统模式
-        print("🔧 启动传统模式")
+        # 原有的传统模式（现在改名为完整工作流模式）
+        print("启动完整工作流模式")
         platform = EnhancedAerospaceSimulationPlatform()
         
         if args.mode == 'complete':
@@ -232,7 +253,7 @@ def main():
             # 仅运行仿真验证
             platform.run_simulation_verification()
     
-    print("\n🎉 程序执行完成！")
+    print("\n程序执行完成！")
 
 
 if __name__ == "__main__":

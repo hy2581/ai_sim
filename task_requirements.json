@@ -1,0 +1,50 @@
+{
+  "requirements": {
+    "min_cpu_gips": 1.5,
+    "min_gpu_gflops": 0.5524187673233673,
+    "min_memory_bandwidth_gbps": 0.3810679577204806,
+    "max_memory_latency_ns": 100,
+    "max_control_response_ms": 10,
+    "min_sensor_sampling_hz": 1000,
+    "max_communication_latency_ms": 50,
+    "min_mtbf_hours": 10000,
+    "max_error_rate": 1e-12,
+    "radiation_tolerance_krad": 100,
+    "max_total_power_w": 500,
+    "min_power_efficiency": 10,
+    "operating_temp_range": [
+      -55,
+      125
+    ],
+    "vibration_tolerance_g": 20
+  },
+  "benchmark_results": {
+    "navigation": {
+      "execution_time_sec": 0.4396696090698242,
+      "total_flops": 95280000,
+      "flops_per_second": 216708178.2194969,
+      "memory_bandwidth_gbps": 0.2931291982465235,
+      "iterations_per_second": 22744.351198519827,
+      "required_cpu_gips": 0.2167081782194969
+    },
+    "control": {
+      "execution_time_sec": 0.023669004440307617,
+      "control_frequency_hz": 42249.34777134223,
+      "avg_response_time_ms": 0.023325443267822266,
+      "max_response_time_ms": 0.17118453979492188,
+      "min_response_time_ms": 0.021219253540039062,
+      "required_control_freq_hz": 1000,
+      "max_acceptable_latency_ms": 10
+    },
+    "image_processing": {
+      "execution_time_sec": 14.16251254081726,
+      "frames_processed": 30,
+      "fps": 2.118268203720074,
+      "total_operations": 5215758480,
+      "required_gflops": 0.36827917821557815,
+      "memory_bandwidth_gbps": 0.15812787410042203,
+      "target_fps": 30,
+      "min_gpu_gflops": 0.5524187673233673
+    }
+  }
+}

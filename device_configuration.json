@@ -1,0 +1,96 @@
+{
+  "cpu": {
+    "min_cores": 16,
+    "min_frequency_ghz": 2.0,
+    "architecture": "ARM",
+    "cache_l1_kb": 32,
+    "cache_l2_kb": 256,
+    "cache_l3_mb": 4,
+    "instruction_sets": [
+      "NEON",
+      "SVE"
+    ],
+    "power_budget_w": 164.8608198451045,
+    "thermal_design_power_w": 151.12241819134582
+  },
+  "gpu": {
+    "min_sm_count": 80,
+    "min_frequency_mhz": 1400,
+    "architecture": "ampere",
+    "memory_size_gb": 32,
+    "memory_type": "GDDR6",
+    "memory_bandwidth_gbps": 1600.0,
+    "compute_capability": "8.6",
+    "power_budget_w": 240.0,
+    "ecc_support": true
+  },
+  "memory": {
+    "min_capacity_gb": 64,
+    "memory_type": "LPDDR5",
+    "min_frequency_mhz": 6400,
+    "min_bandwidth_gbps": 71.67999999999999,
+    "max_latency_ns": 100,
+    "ecc_support": true,
+    "power_per_gb_w": 0.3
+  },
+  "sensors": [
+    {
+      "sensor_type": "IMU",
+      "min_sampling_rate_hz": 1000,
+      "resolution_bits": 16,
+      "accuracy_percent": 99.5,
+      "interface_type": "SPI",
+      "power_consumption_mw": 20,
+      "operating_temp_range": [
+        -55,
+        125
+      ]
+    },
+    {
+      "sensor_type": "environmental",
+      "min_sampling_rate_hz": 100,
+      "resolution_bits": 12,
+      "accuracy_percent": 98.0,
+      "interface_type": "I2C",
+      "power_consumption_mw": 5,
+      "operating_temp_range": [
+        -55,
+        125
+      ]
+    }
+  ],
+  "communications": [
+    {
+      "comm_type": "RF_transceiver",
+      "min_data_rate_mbps": 100,
+      "max_latency_ms": 50,
+      "protocol_support": [
+        "SpaceWire",
+        "MIL-STD-1553"
+      ],
+      "power_consumption_w": 5.0,
+      "range_km": 1000,
+      "reliability_percent": 99.9
+    }
+  ],
+  "controllers": [
+    {
+      "controller_type": "attitude_controller",
+      "min_response_time_ms": 10,
+      "control_precision": 0.1,
+      "interface_types": [
+        "CAN",
+        "PWM"
+      ],
+      "power_consumption_w": 2.0,
+      "redundancy_level": 2
+    }
+  ],
+  "total_power_budget_w": 500.0,
+  "form_factor_constraints": {
+    "max_length_mm": 100,
+    "max_width_mm": 100,
+    "max_height_mm": 20,
+    "max_weight_g": 500
+  }
+}

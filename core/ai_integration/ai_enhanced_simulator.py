@@ -34,7 +34,7 @@ class AIEnhancedSimulator:
         
     def process_natural_language_input(self, user_input: str) -> Dict[str, Any]:
         """处理自然语言输入的完整流程"""
-        print("🚀 启动AI增强的航空航天微系统仿真平台")
+        print("启动AI增强的航空航天微系统仿真平台")
         print("=" * 80)
         print(f"用户输入: {user_input}")
         print("=" * 80)
@@ -51,7 +51,7 @@ class AIEnhancedSimulator:
         
         try:
             # 阶段1: AI需求分析
-            print("\n🧠 阶段1: AI需求分析")
+            print("\n阶段1: AI需求分析")
             print("-" * 60)
             ai_requirements = self.api_client.parse_natural_language_requirements(user_input)
             task_analysis = self.api_client.generate_task_analysis(ai_requirements)
@@ -62,7 +62,7 @@ class AIEnhancedSimulator:
             }
             
             # 阶段2: 执行任务需求定义（结合AI分析和实际仿真）
-            print("\n🎯 阶段2: 执行任务需求定义")
+            print("\n阶段2: 执行任务需求定义")
             print("-" * 60)
             simulation_results = self._run_task_simulation(ai_requirements, task_analysis)
             task_requirements = self._generate_task_requirements(simulation_results, ai_requirements)
@@ -71,7 +71,7 @@ class AIEnhancedSimulator:
             results["simulation_results"]["benchmark_results"] = simulation_results
             
             # 阶段3: AI辅助器件映射
-            print("\n🔧 阶段3: AI辅助器件映射")
+            print("\n阶段3: AI辅助器件映射")
             print("-" * 60)
             mapping_strategy = self.api_client.generate_device_mapping_strategy(
                 ai_requirements, task_analysis
@@ -84,7 +84,7 @@ class AIEnhancedSimulator:
             results["ai_analysis"]["mapping_strategy"] = mapping_strategy
             
             # 阶段4: 仿真验证
-            print("\n🔍 阶段4: 仿真验证")
+            print("\n阶段4: 仿真验证")
             print("-" * 60)
             verification_plan = self.api_client.generate_verification_plan(
                 ai_requirements, asdict(device_config)
@@ -95,7 +95,7 @@ class AIEnhancedSimulator:
             results["ai_analysis"]["verification_plan"] = verification_plan
             
             # 阶段5: AI生成最终报告
-            print("\n📝 阶段5: AI生成最终报告")
+            print("\n阶段5: AI生成最终报告")
             print("-" * 60)
             final_report = self.api_client.generate_final_report(results)
             results["final_report"] = final_report
@@ -104,10 +104,10 @@ class AIEnhancedSimulator:
             self._save_report(final_report)
             
             results["status"] = "completed"
-            print("\n✅ 仿真流程完成！")
+            print("\n仿真流程完成！")
             
         except Exception as e:
-            print(f"\n❌ 仿真过程中出现错误: {e}")
+            print(f"\n仿真过程中出现错误: {e}")
             results["status"] = "failed"
             results["error"] = str(e)
             

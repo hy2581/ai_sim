@@ -1,0 +1,502 @@
+{
+  "description": "基于自然语言输入和器件库选择的当前器件配置",
+  "extraction_source": "自然语言输入 + 器件库补充",
+  "extracted_devices": {
+    "extracted_devices": {
+      "cpu": [],
+      "gpu": [],
+      "memory": [],
+      "storage": [],
+      "sensors": [
+        {
+          "name": "微型激光拉曼探头",
+          "type": "光谱传感器",
+          "function": "物质识别",
+          "source": "自然语言提取"
+        },
+        {
+          "name": "高光谱成像仪",
+          "type": "成像传感器",
+          "function": "光谱成像",
+          "source": "自然语言提取"
+        }
+      ],
+      "communication": [],
+      "controllers": [
+        {
+          "name": "抗辐射片上系统(SoC)",
+          "type": "系统级控制器",
+          "function": "控制与数据处理",
+          "source": "自然语言提取"
+        }
+      ]
+    }
+  },
+  "supplemented_devices": {
+    "cpu": [
+      {
+        "name": "BAE Systems RAD750",
+        "type": "CPU",
+        "category": "深空探测专用处理器",
+        "parameters": {
+          "architecture": "PowerPC 750",
+          "cores": 1,
+          "base_frequency_mhz": 200,
+          "max_frequency_mhz": 200,
+          "cache_l1_kb": 64,
+          "cache_l2_mb": 1,
+          "power_consumption_w": 5,
+          "operating_temp_range": "-55°C to +125°C",
+          "radiation_tolerance": "1000 krad(Si)",
+          "mtbf_hours": 15000000,
+          "process_node_nm": 150,
+          "space_qualified": true
+        },
+        "interconnect_effects": {
+          "memory_bandwidth_gbps": 1.6,
+          "pcie_lanes": 0,
+          "latency_to_memory_ns": 200,
+          "power_overhead_w": 0.5,
+          "thermal_dissipation": "被动散热"
+        },
+        "selection_reason": "选择航天专用处理器BAE Systems RAD750，抗辐射等级1000 krad(Si)",
+        "source": "器件库补充"
+      }
+    ],
+    "gpu": [
+      {
+        "name": "Microsemi PolarFire FPGA",
+        "type": "GPU",
+        "category": "低功耗抗辐射图形处理器",
+        "parameters": {
+          "architecture": "FPGA",
+          "logic_elements": 500000,
+          "math_blocks": 2040,
+          "memory_mb": 32,
+          "power_consumption_w": 8,
+          "operating_temp_range": "-55°C to +125°C",
+          "radiation_tolerance": "300 krad(Si)",
+          "mtbf_hours": 8000000,
+          "process_node_nm": 28,
+          "space_qualified": true
+        },
+        "interconnect_effects": {
+          "pcie_bandwidth_gbps": 8,
+          "latency_to_cpu_ns": 100,
+          "power_overhead_w": 1.5,
+          "thermal_dissipation": "被动散热"
+        },
+        "selection_reason": "选择航天专用图形处理器Microsemi PolarFire FPGA支持光谱数据处理",
+        "source": "器件库补充"
+      }
+    ],
+    "memory": [
+      {
+        "name": "BAE Systems RAD-PAK DDR3",
+        "type": "Memory",
+        "category": "航空航天级DDR3内存",
+        "parameters": {
+          "capacity_gb": 8,
+          "frequency_mhz": 1600,
+          "bandwidth_gbps": 12.8,
+          "latency_ns": 11,
+          "ecc_support": true,
+          "power_consumption_w": 3.5,
+          "operating_temp_range": "-55°C to +125°C",
+          "radiation_tolerance": "1000 krad(Si)",
+          "mtbf_hours": 15000000,
+          "voltage_v": 1.35,
+          "space_qualified": true
+        },
+        "interconnect_effects": {
+          "channels": 1,
+          "ranks_per_channel": 2,
+          "refresh_overhead_percent": 7.8,
+          "power_overhead_w": 0.8,
+          "thermal_coupling": "中等热耦合"
+        },
+        "selection_reason": "选择航天专用内存BAE Systems RAD-PAK DDR3保证数据可靠性",
+        "source": "器件库补充"
+      }
+    ],
+    "storage": [
+      {
+        "name": "BAE Systems RAD-PAK EEPROM",
+        "type": "Storage",
+        "category": "抗辐射非易失性存储",
+        "parameters": {
+          "capacity_mb": 512,
+          "interface": "SPI",
+          "read_speed_mbps": 50,
+          "write_speed_mbps": 25,
+          "power_consumption_mw": 50,
+          "operating_temp_range": "-55°C to +125°C",
+          "radiation_tolerance": "1000 krad(Si)",
+          "mtbf_hours": 10000000,
+          "endurance_cycles": 1000000,
+          "space_qualified": true
+        },
+        "interconnect_effects": {
+          "spi_lanes_required": 1,
+          "latency_us": 10,
+          "power_overhead_mw": 10,
+          "thermal_dissipation": "被动散热"
+        },
+        "selection_reason": "选择航天专用存储BAE Systems RAD-PAK EEPROM保证数据安全",
+        "source": "器件库补充"
+      }
+    ],
+    "sensors": [
+      {
+        "name": "微型激光拉曼探头",
+        "type": "光谱传感器",
+        "function": "物质识别",
+        "source": "自然语言提取"
+      },
+      {
+        "name": "高光谱成像仪",
+        "type": "成像传感器",
+        "function": "光谱成像",
+        "source": "自然语言提取"
+      },
+      {
+        "name": "Analog Devices ADXL375",
+        "type": "Sensor",
+        "category": "高冲击加速度计",
+        "parameters": {
+          "sensor_types": [
+            "三轴加速度计"
+          ],
+          "measurement_range_g": "±200",
+          "resolution_mg": 49,
+          "sampling_rate_hz": 3200,
+          "power_consumption_mw": 0.145,
+          "operating_temp_range": "-40°C to +85°C",
+          "radiation_tolerance": "300 krad(Si)",
+          "mtbf_hours": 8000000,
+          "interface": "SPI/I2C",
+          "space_qualified": true
+        },
+        "interconnect_effects": {
+          "data_rate_mbps": 5,
+          "latency_ms": 0.3125,
+          "power_overhead_mw": 0.05,
+          "signal_integrity": "抗冲击设计"
+        },
+        "selection_reason": "补充航天专用sensors器件Analog Devices ADXL375作为备选方案",
+        "source": "器件库补充"
+      }
+    ],
+    "communication": [
+      {
+        "name": "NASA Deep Space Network Transceiver",
+        "type": "Communication",
+        "category": "深空通信收发器",
+        "parameters": {
+          "technology": "X波段深空通信",
+          "frequency_ghz": 8.4,
+          "max_range_au": 50,
+          "data_rate_kbps": 32,
+          "power_consumption_w": 25,
+          "operating_temp_range": "-55°C to +125°C",
+          "radiation_tolerance": "1000 krad(Si)",
+          "mtbf_hours": 20000000,
+          "interface": "专用DSN协议",
+          "space_qualified": true
+        },
+        "interconnect_effects": {
+          "data_rate_kbps": 32,
+          "latency_minutes": 20,
+          "power_overhead_w": 5,
+          "antenna_requirements": "高增益抛物面天线"
+        },
+        "selection_reason": "选择航天专用通信器件NASA Deep Space Network Transceiver适合深空环境",
+        "source": "器件库补充"
+      }
+    ],
+    "controllers": [
+      {
+        "name": "抗辐射片上系统(SoC)",
+        "type": "系统级控制器",
+        "function": "控制与数据处理",
+        "source": "自然语言提取"
+      },
+      {
+        "name": "Atmel AT697F LEON3FT",
+        "type": "Controller",
+        "category": "容错航空航天处理器",
+        "parameters": {
+          "architecture": "SPARC V8 LEON3FT",
+          "frequency_mhz": 100,
+          "cache_l1_kb": 16,
+          "cache_l2_kb": 256,
+          "fpu_support": true,
+          "power_consumption_w": 2,
+          "operating_temp_range": "-55°C to +125°C",
+          "radiation_tolerance": "300 krad(Si)",
+          "mtbf_hours": 12000000,
+          "interfaces": [
+            "SpaceWire",
+            "UART",
+            "SPI",
+            "I2C"
+          ],
+          "space_qualified": true
+        },
+        "interconnect_effects": {
+          "spacewire_links": 4,
+          "latency_ns": 50,
+          "power_overhead_w": 0.5,
+          "real_time_capability": "硬件容错实时处理"
+        },
+        "selection_reason": "补充航天专用controllers器件Atmel AT697F LEON3FT作为备选方案",
+        "source": "器件库补充"
+      }
+    ]
+  },
+  "supplement_reasons": {
+    "cpu": [
+      "自然语言输入中未明确提及cpu器件，根据任务需求从器件库中选择合适的器件"
+    ],
+    "gpu": [
+      "自然语言输入中未明确提及gpu器件，根据任务需求从器件库中选择合适的器件"
+    ],
+    "memory": [
+      "自然语言输入中未明确提及memory器件，根据任务需求从器件库中选择合适的器件"
+    ],
+    "storage": [
+      "自然语言输入中未明确提及storage器件，根据任务需求从器件库中选择合适的器件"
+    ],
+    "sensors": [
+      "补充航天专用sensors器件Analog Devices ADXL375作为备选方案"
+    ],
+    "communication": [
+      "自然语言输入中未明确提及communication器件，根据任务需求从器件库中选择合适的器件"
+    ],
+    "controllers": [
+      "补充航天专用controllers器件Atmel AT697F LEON3FT作为备选方案"
+    ]
+  },
+  "devices": {
+    "cpu": [
+      {
+        "name": "BAE Systems RAD750",
+        "type": "CPU",
+        "category": "深空探测专用处理器",
+        "parameters": {
+          "architecture": "PowerPC 750",
+          "cores": 1,
+          "base_frequency_mhz": 200,
+          "max_frequency_mhz": 200,
+          "cache_l1_kb": 64,
+          "cache_l2_mb": 1,
+          "power_consumption_w": 5,
+          "operating_temp_range": "-55°C to +125°C",
+          "radiation_tolerance": "1000 krad(Si)",
+          "mtbf_hours": 15000000,
+          "process_node_nm": 150,
+          "space_qualified": true
+        },
+        "interconnect_effects": {
+          "memory_bandwidth_gbps": 1.6,
+          "pcie_lanes": 0,
+          "latency_to_memory_ns": 200,
+          "power_overhead_w": 0.5,
+          "thermal_dissipation": "被动散热"
+        },
+        "selection_reason": "选择航天专用处理器BAE Systems RAD750，抗辐射等级1000 krad(Si)",
+        "source": "器件库补充"
+      }
+    ],
+    "gpu": [
+      {
+        "name": "Microsemi PolarFire FPGA",
+        "type": "GPU",
+        "category": "低功耗抗辐射图形处理器",
+        "parameters": {
+          "architecture": "FPGA",
+          "logic_elements": 500000,
+          "math_blocks": 2040,
+          "memory_mb": 32,
+          "power_consumption_w": 8,
+          "operating_temp_range": "-55°C to +125°C",
+          "radiation_tolerance": "300 krad(Si)",
+          "mtbf_hours": 8000000,
+          "process_node_nm": 28,
+          "space_qualified": true
+        },
+        "interconnect_effects": {
+          "pcie_bandwidth_gbps": 8,
+          "latency_to_cpu_ns": 100,
+          "power_overhead_w": 1.5,
+          "thermal_dissipation": "被动散热"
+        },
+        "selection_reason": "选择航天专用图形处理器Microsemi PolarFire FPGA支持光谱数据处理",
+        "source": "器件库补充"
+      }
+    ],
+    "memory": [
+      {
+        "name": "BAE Systems RAD-PAK DDR3",
+        "type": "Memory",
+        "category": "航空航天级DDR3内存",
+        "parameters": {
+          "capacity_gb": 8,
+          "frequency_mhz": 1600,
+          "bandwidth_gbps": 12.8,
+          "latency_ns": 11,
+          "ecc_support": true,
+          "power_consumption_w": 3.5,
+          "operating_temp_range": "-55°C to +125°C",
+          "radiation_tolerance": "1000 krad(Si)",
+          "mtbf_hours": 15000000,
+          "voltage_v": 1.35,
+          "space_qualified": true
+        },
+        "interconnect_effects": {
+          "channels": 1,
+          "ranks_per_channel": 2,
+          "refresh_overhead_percent": 7.8,
+          "power_overhead_w": 0.8,
+          "thermal_coupling": "中等热耦合"
+        },
+        "selection_reason": "选择航天专用内存BAE Systems RAD-PAK DDR3保证数据可靠性",
+        "source": "器件库补充"
+      }
+    ],
+    "storage": [
+      {
+        "name": "BAE Systems RAD-PAK EEPROM",
+        "type": "Storage",
+        "category": "抗辐射非易失性存储",
+        "parameters": {
+          "capacity_mb": 512,
+          "interface": "SPI",
+          "read_speed_mbps": 50,
+          "write_speed_mbps": 25,
+          "power_consumption_mw": 50,
+          "operating_temp_range": "-55°C to +125°C",
+          "radiation_tolerance": "1000 krad(Si)",
+          "mtbf_hours": 10000000,
+          "endurance_cycles": 1000000,
+          "space_qualified": true
+        },
+        "interconnect_effects": {
+          "spi_lanes_required": 1,
+          "latency_us": 10,
+          "power_overhead_mw": 10,
+          "thermal_dissipation": "被动散热"
+        },
+        "selection_reason": "选择航天专用存储BAE Systems RAD-PAK EEPROM保证数据安全",
+        "source": "器件库补充"
+      }
+    ],
+    "sensors": [
+      {
+        "name": "微型激光拉曼探头",
+        "type": "光谱传感器",
+        "function": "物质识别",
+        "source": "自然语言提取"
+      },
+      {
+        "name": "高光谱成像仪",
+        "type": "成像传感器",
+        "function": "光谱成像",
+        "source": "自然语言提取"
+      },
+      {
+        "name": "Analog Devices ADXL375",
+        "type": "Sensor",
+        "category": "高冲击加速度计",
+        "parameters": {
+          "sensor_types": [
+            "三轴加速度计"
+          ],
+          "measurement_range_g": "±200",
+          "resolution_mg": 49,
+          "sampling_rate_hz": 3200,
+          "power_consumption_mw": 0.145,
+          "operating_temp_range": "-40°C to +85°C",
+          "radiation_tolerance": "300 krad(Si)",
+          "mtbf_hours": 8000000,
+          "interface": "SPI/I2C",
+          "space_qualified": true
+        },
+        "interconnect_effects": {
+          "data_rate_mbps": 5,
+          "latency_ms": 0.3125,
+          "power_overhead_mw": 0.05,
+          "signal_integrity": "抗冲击设计"
+        },
+        "selection_reason": "补充航天专用sensors器件Analog Devices ADXL375作为备选方案",
+        "source": "器件库补充"
+      }
+    ],
+    "communication": [
+      {
+        "name": "NASA Deep Space Network Transceiver",
+        "type": "Communication",
+        "category": "深空通信收发器",
+        "parameters": {
+          "technology": "X波段深空通信",
+          "frequency_ghz": 8.4,
+          "max_range_au": 50,
+          "data_rate_kbps": 32,
+          "power_consumption_w": 25,
+          "operating_temp_range": "-55°C to +125°C",
+          "radiation_tolerance": "1000 krad(Si)",
+          "mtbf_hours": 20000000,
+          "interface": "专用DSN协议",
+          "space_qualified": true
+        },
+        "interconnect_effects": {
+          "data_rate_kbps": 32,
+          "latency_minutes": 20,
+          "power_overhead_w": 5,
+          "antenna_requirements": "高增益抛物面天线"
+        },
+        "selection_reason": "选择航天专用通信器件NASA Deep Space Network Transceiver适合深空环境",
+        "source": "器件库补充"
+      }
+    ],
+    "controllers": [
+      {
+        "name": "抗辐射片上系统(SoC)",
+        "type": "系统级控制器",
+        "function": "控制与数据处理",
+        "source": "自然语言提取"
+      },
+      {
+        "name": "Atmel AT697F LEON3FT",
+        "type": "Controller",
+        "category": "容错航空航天处理器",
+        "parameters": {
+          "architecture": "SPARC V8 LEON3FT",
+          "frequency_mhz": 100,
+          "cache_l1_kb": 16,
+          "cache_l2_kb": 256,
+          "fpu_support": true,
+          "power_consumption_w": 2,
+          "operating_temp_range": "-55°C to +125°C",
+          "radiation_tolerance": "300 krad(Si)",
+          "mtbf_hours": 12000000,
+          "interfaces": [
+            "SpaceWire",
+            "UART",
+            "SPI",
+            "I2C"
+          ],
+          "space_qualified": true
+        },
+        "interconnect_effects": {
+          "spacewire_links": 4,
+          "latency_ns": 50,
+          "power_overhead_w": 0.5,
+          "real_time_capability": "硬件容错实时处理"
+        },
+        "selection_reason": "补充航天专用controllers器件Atmel AT697F LEON3FT作为备选方案",
+        "source": "器件库补充"
+      }
+    ]
+  }
+}

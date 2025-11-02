@@ -1,0 +1,29 @@
+{
+  "task_description": "基于输入的航空航天微系统任务: 测试系统...",
+  "required_devices": {
+    "cpu": {
+      "requirements": "高性能低功耗处理器，支持实时计算",
+      "key_parameters": [
+        "多核架构",
+        "低功耗",
+        "抗辐射"
+      ],
+      "interconnect_impacts": [
+        "内存带宽需求",
+        "热管理"
+      ]
+    },
+    "sensors": {
+      "requirements": "多种传感器用于数据采集和分析",
+      "key_parameters": [
+        "高精度",
+        "低功耗",
+        "环境适应性"
+      ],
+      "interconnect_impacts": [
+        "数据传输带宽",
+        "实时性要求"
+      ]
+    }
+  }
+}
