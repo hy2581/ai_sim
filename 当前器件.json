@@ -10,23 +10,35 @@
       "sensors": [
         {
           "name": "微型激光拉曼探头",
-          "type": "光谱传感器",
-          "function": "物质识别",
+          "parameters": [
+            "微型"
+          ],
+          "function": "用于物质识别",
           "source": "自然语言提取"
         },
         {
           "name": "高光谱成像仪",
-          "type": "成像传感器",
-          "function": "光谱成像",
+          "parameters": [],
+          "function": "用于物质识别",
+          "source": "自然语言提取"
+        },
+        {
+          "name": "微型光谱仪",
+          "parameters": [
+            "微型"
+          ],
+          "function": "实时解析物质成分",
           "source": "自然语言提取"
         }
       ],
       "communication": [],
       "controllers": [
         {
-          "name": "抗辐射片上系统(SoC)",
-          "type": "系统级控制器",
-          "function": "控制与数据处理",
+          "name": "抗辐射片上系统（SoC）",
+          "parameters": [
+            "抗辐射"
+          ],
+          "function": "负责控制与数据处理",
           "source": "自然语言提取"
         }
       ]
@@ -149,14 +161,24 @@
     "sensors": [
       {
         "name": "微型激光拉曼探头",
-        "type": "光谱传感器",
-        "function": "物质识别",
+        "parameters": [
+          "微型"
+        ],
+        "function": "用于物质识别",
         "source": "自然语言提取"
       },
       {
         "name": "高光谱成像仪",
-        "type": "成像传感器",
-        "function": "光谱成像",
+        "parameters": [],
+        "function": "用于物质识别",
+        "source": "自然语言提取"
+      },
+      {
+        "name": "微型光谱仪",
+        "parameters": [
+          "微型"
+        ],
+        "function": "实时解析物质成分",
         "source": "自然语言提取"
       },
       {
@@ -216,9 +238,11 @@
     ],
     "controllers": [
       {
-        "name": "抗辐射片上系统(SoC)",
-        "type": "系统级控制器",
-        "function": "控制与数据处理",
+        "name": "抗辐射片上系统（SoC）",
+        "parameters": [
+          "抗辐射"
+        ],
+        "function": "负责控制与数据处理",
         "source": "自然语言提取"
       },
       {
@@ -394,14 +418,24 @@
     "sensors": [
       {
         "name": "微型激光拉曼探头",
-        "type": "光谱传感器",
-        "function": "物质识别",
+        "parameters": [
+          "微型"
+        ],
+        "function": "用于物质识别",
         "source": "自然语言提取"
       },
       {
         "name": "高光谱成像仪",
-        "type": "成像传感器",
-        "function": "光谱成像",
+        "parameters": [],
+        "function": "用于物质识别",
+        "source": "自然语言提取"
+      },
+      {
+        "name": "微型光谱仪",
+        "parameters": [
+          "微型"
+        ],
+        "function": "实时解析物质成分",
         "source": "自然语言提取"
       },
       {
@@ -461,9 +495,11 @@
     ],
     "controllers": [
       {
-        "name": "抗辐射片上系统(SoC)",
-        "type": "系统级控制器",
-        "function": "控制与数据处理",
+        "name": "抗辐射片上系统（SoC）",
+        "parameters": [
+          "抗辐射"
+        ],
+        "function": "负责控制与数据处理",
         "source": "自然语言提取"
       },
       {
