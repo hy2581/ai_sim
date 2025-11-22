@@ -7,6 +7,7 @@ Traditional Mode Processor for Aerospace Microsystem Requirements
 import sys
 import os
 import argparse
+import subprocess
 from pathlib import Path
 
 # 添加项目根目录到Python路径
@@ -57,6 +58,19 @@ def main():
             print("   - 任务需求.json")
             print("   - 当前器件.json")
             print("   - 传统模式分析报告.md")
+            try:
+                subprocess.run([
+                    "python3",
+                    str(project_root / "scripts" / "generate_device_layout_svg.py")
+                ], check=True)
+                subprocess.run([
+                    "python3",
+                    str(project_root / "scripts" / "build_visualization.py")
+                ], check=True)
+                print("   - 器件排布图.svg")
+                print("   - 传统模式分析可视化.html")
+            except Exception as e:
+                print(f"\n⚠️ 可视化生成失败: {e}")
         else:
             print(f"\n❌ 传统模式处理失败: {results.get('error', 'Unknown error')}")
             return 1
