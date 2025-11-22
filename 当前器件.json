@@ -1,0 +1,138 @@
+{
+  "description": "基于自然语言输入和器件库选择的当前器件配置",
+  "extraction_source": "自然语言输入 + 器件库补充",
+  "extracted_devices": {
+    "extracted_devices": {
+      "cpu": [],
+      "gpu": [],
+      "memory": [],
+      "storage": [],
+      "sensors": [
+        {
+          "name": "微型激光拉曼探头",
+          "parameters": [
+            "微型"
+          ],
+          "function": "用于物质识别",
+          "source": "自然语言提取"
+        },
+        {
+          "name": "高光谱成像仪",
+          "parameters": [],
+          "function": "用于物质识别",
+          "source": "自然语言提取"
+        },
+        {
+          "name": "微型光谱仪",
+          "parameters": [
+            "微型"
+          ],
+          "function": "实时解析样本物质成分",
+          "source": "自然语言提取"
+        }
+      ],
+      "communication": [],
+      "controllers": [
+        {
+          "name": "抗辐射片上系统（SoC）",
+          "parameters": [
+            "抗辐射"
+          ],
+          "function": "负责控制与数据处理",
+          "source": "自然语言提取"
+        }
+      ]
+    }
+  },
+  "supplemented_devices": {
+    "cpu": [],
+    "gpu": [],
+    "memory": [],
+    "storage": [],
+    "sensors": [
+      {
+        "name": "微型激光拉曼探头",
+        "parameters": [
+          "微型"
+        ],
+        "function": "用于物质识别",
+        "source": "自然语言提取"
+      },
+      {
+        "name": "高光谱成像仪",
+        "parameters": [],
+        "function": "用于物质识别",
+        "source": "自然语言提取"
+      },
+      {
+        "name": "微型光谱仪",
+        "parameters": [
+          "微型"
+        ],
+        "function": "实时解析样本物质成分",
+        "source": "自然语言提取"
+      }
+    ],
+    "communication": [],
+    "controllers": [
+      {
+        "name": "抗辐射片上系统（SoC）",
+        "parameters": [
+          "抗辐射"
+        ],
+        "function": "负责控制与数据处理",
+        "source": "自然语言提取"
+      }
+    ]
+  },
+  "supplement_reasons": {
+    "cpu": [],
+    "gpu": [],
+    "memory": [],
+    "storage": [],
+    "sensors": [],
+    "communication": [],
+    "controllers": []
+  },
+  "devices": {
+    "cpu": [],
+    "gpu": [],
+    "memory": [],
+    "storage": [],
+    "sensors": [
+      {
+        "name": "微型激光拉曼探头",
+        "parameters": [
+          "微型"
+        ],
+        "function": "用于物质识别",
+        "source": "自然语言提取"
+      },
+      {
+        "name": "高光谱成像仪",
+        "parameters": [],
+        "function": "用于物质识别",
+        "source": "自然语言提取"
+      },
+      {
+        "name": "微型光谱仪",
+        "parameters": [
+          "微型"
+        ],
+        "function": "实时解析样本物质成分",
+        "source": "自然语言提取"
+      }
+    ],
+    "communication": [],
+    "controllers": [
+      {
+        "name": "抗辐射片上系统（SoC）",
+        "parameters": [
+          "抗辐射"
+        ],
+        "function": "负责控制与数据处理",
+        "source": "自然语言提取"
+      }
+    ]
+  }
+}

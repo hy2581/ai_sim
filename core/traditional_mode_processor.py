@@ -21,8 +21,16 @@ from core.ai_integration.deepseek_api_client import DeepSeekAPIClient
 class TraditionalModeProcessor:
     """传统模式处理器"""
     
-    def __init__(self, api_key: str = None):
-        self.api_client = DeepSeekAPIClient(api_key)
+    def __init__(self, api_key: str = None, model_type: str = "qwen0.5b"):
+        """
+        初始化处理器
+        
+        Args:
+            api_key: DeepSeek API密钥 (仅 deepseek-api 需要)
+            model_type: 模型类型 (qwen0.5b/deepseek-api/deepseek-r1)
+        """
+        self.api_client = DeepSeekAPIClient(api_key, model_type)
+        self.model_type = model_type
         self.project_root = project_root
         self.device_library = self._load_device_library()
         

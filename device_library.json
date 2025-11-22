@@ -1,23 +1,42 @@
 {
+  "metadata": {
+    "description": "微系统产品需求定义模型库",
+    "version": "2.0",
+    "standard": "五院及物资部核心技术重塑工程计划",
+    "requirements_coverage": [
+      "宇航SoC",
+      "ASIC",
+      "SiP",
+      "连接器"
+    ]
+  },
   "device_library": {
-    "cpus": [
+    "SoC": [
       {
         "name": "ARM Cortex-A78AE",
-        "type": "CPU",
-        "category": "航空航天专用处理器",
-        "parameters": {
-          "architecture": "ARM v8.2-A",
-          "cores": 8,
-          "base_frequency_ghz": 2.0,
-          "max_frequency_ghz": 3.0,
-          "cache_l1_kb": 128,
-          "cache_l2_mb": 4,
-          "cache_l3_mb": 8,
-          "power_consumption_w": 15,
-          "operating_temp_range": "-55°C to +125°C",
-          "radiation_tolerance": "100 krad(Si)",
-          "mtbf_hours": 1000000,
-          "process_node_nm": 7
+        "type": "SoC",
+        "original_category": "航空航天专用处理器",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "航空航天专用处理器 - CPU",
+            "features": []
+          },
+          "performance": {
+            "architecture": "ARM v8.2-A",
+            "cores": 8,
+            "base_frequency_ghz": 2.0,
+            "max_frequency_ghz": 3.0,
+            "cache_l1_kb": 128,
+            "cache_l2_mb": 4,
+            "cache_l3_mb": 8,
+            "power_consumption_w": 15,
+            "process_node_nm": 7
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "100 krad(Si)",
+            "mtbf_hours": 1000000
+          }
         },
         "interconnect_effects": {
           "memory_bandwidth_gbps": 51.2,
@@ -29,21 +48,29 @@
       },
       {
         "name": "BAE Systems RAD750",
-        "type": "CPU",
-        "category": "深空探测专用处理器",
-        "parameters": {
-          "architecture": "PowerPC 750",
-          "cores": 1,
-          "base_frequency_mhz": 200,
-          "max_frequency_mhz": 200,
-          "cache_l1_kb": 64,
-          "cache_l2_mb": 1,
-          "power_consumption_w": 5,
-          "operating_temp_range": "-55°C to +125°C",
-          "radiation_tolerance": "1000 krad(Si)",
-          "mtbf_hours": 15000000,
-          "process_node_nm": 150,
-          "space_qualified": true
+        "type": "SoC",
+        "original_category": "深空探测专用处理器",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "深空探测专用处理器 - CPU",
+            "features": []
+          },
+          "performance": {
+            "architecture": "PowerPC 750",
+            "cores": 1,
+            "base_frequency_mhz": 200,
+            "max_frequency_mhz": 200,
+            "cache_l1_kb": 64,
+            "cache_l2_mb": 1,
+            "power_consumption_w": 5,
+            "process_node_nm": 150
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "1000 krad(Si)",
+            "mtbf_hours": 15000000,
+            "space_qualified": true
+          }
         },
         "interconnect_effects": {
           "memory_bandwidth_gbps": 1.6,
@@ -55,20 +82,28 @@
       },
       {
         "name": "Microsemi RTG4 FPGA SoC",
-        "type": "CPU",
-        "category": "抗辐射FPGA系统级芯片",
-        "parameters": {
-          "architecture": "ARM Cortex-M3 + FPGA",
-          "cores": 1,
-          "base_frequency_mhz": 166,
-          "fpga_logic_elements": 150000,
-          "cache_l1_kb": 8,
-          "power_consumption_w": 3,
-          "operating_temp_range": "-55°C to +125°C",
-          "radiation_tolerance": "300 krad(Si)",
-          "mtbf_hours": 10000000,
-          "process_node_nm": 65,
-          "space_qualified": true
+        "type": "SoC",
+        "original_category": "抗辐射FPGA系统级芯片",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "抗辐射FPGA系统级芯片 - CPU",
+            "features": []
+          },
+          "performance": {
+            "architecture": "ARM Cortex-M3 + FPGA",
+            "cores": 1,
+            "base_frequency_mhz": 166,
+            "fpga_logic_elements": 150000,
+            "cache_l1_kb": 8,
+            "power_consumption_w": 3,
+            "process_node_nm": 65
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "300 krad(Si)",
+            "mtbf_hours": 10000000,
+            "space_qualified": true
+          }
         },
         "interconnect_effects": {
           "memory_bandwidth_gbps": 3.2,
@@ -80,21 +115,29 @@
       },
       {
         "name": "Intel Atom x6000E",
-        "type": "CPU",
-        "category": "低功耗嵌入式处理器",
-        "parameters": {
-          "architecture": "x86-64",
-          "cores": 4,
-          "base_frequency_ghz": 1.5,
-          "max_frequency_ghz": 3.0,
-          "cache_l1_kb": 96,
-          "cache_l2_mb": 1.5,
-          "cache_l3_mb": 4.5,
-          "power_consumption_w": 12,
-          "operating_temp_range": "-40°C to +85°C",
-          "radiation_tolerance": "50 krad(Si)",
-          "mtbf_hours": 800000,
-          "process_node_nm": 10
+        "type": "SoC",
+        "original_category": "低功耗嵌入式处理器",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "低功耗嵌入式处理器 - CPU",
+            "features": []
+          },
+          "performance": {
+            "architecture": "x86-64",
+            "cores": 4,
+            "base_frequency_ghz": 1.5,
+            "max_frequency_ghz": 3.0,
+            "cache_l1_kb": 96,
+            "cache_l2_mb": 1.5,
+            "cache_l3_mb": 4.5,
+            "power_consumption_w": 12,
+            "process_node_nm": 10
+          },
+          "reliability": {
+            "operating_temp_range": "-40°C to +85°C",
+            "radiation_tolerance": "50 krad(Si)",
+            "mtbf_hours": 800000
+          }
         },
         "interconnect_effects": {
           "memory_bandwidth_gbps": 38.4,
@@ -106,21 +149,29 @@
       },
       {
         "name": "RISC-V RV64GC",
-        "type": "CPU",
-        "category": "开源航空航天处理器",
-        "parameters": {
-          "architecture": "RISC-V 64-bit",
-          "cores": 4,
-          "base_frequency_ghz": 1.2,
-          "max_frequency_ghz": 2.0,
-          "cache_l1_kb": 64,
-          "cache_l2_mb": 2,
-          "cache_l3_mb": 4,
-          "power_consumption_w": 8,
-          "operating_temp_range": "-55°C to +125°C",
-          "radiation_tolerance": "200 krad(Si)",
-          "mtbf_hours": 1200000,
-          "process_node_nm": 14
+        "type": "SoC",
+        "original_category": "开源航空航天处理器",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "开源航空航天处理器 - CPU",
+            "features": []
+          },
+          "performance": {
+            "architecture": "RISC-V 64-bit",
+            "cores": 4,
+            "base_frequency_ghz": 1.2,
+            "max_frequency_ghz": 2.0,
+            "cache_l1_kb": 64,
+            "cache_l2_mb": 2,
+            "cache_l3_mb": 4,
+            "power_consumption_w": 8,
+            "process_node_nm": 14
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "200 krad(Si)",
+            "mtbf_hours": 1200000
+          }
         },
         "interconnect_effects": {
           "memory_bandwidth_gbps": 25.6,
@@ -132,19 +183,27 @@
       },
       {
         "name": "Xilinx Versal ACAP VP1902",
-        "type": "CPU",
-        "category": "自适应计算加速平台",
-        "parameters": {
-          "architecture": "ARM Cortex-A72 + AI Engine",
-          "cores": 2,
-          "base_frequency_ghz": 1.3,
-          "ai_engines": 400,
-          "dsp_slices": 1968,
-          "power_consumption_w": 20,
-          "operating_temp_range": "-40°C to +100°C",
-          "radiation_tolerance": "100 krad(Si)",
-          "mtbf_hours": 2000000,
-          "process_node_nm": 7
+        "type": "SoC",
+        "original_category": "自适应计算加速平台",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "自适应计算加速平台 - CPU",
+            "features": []
+          },
+          "performance": {
+            "architecture": "ARM Cortex-A72 + AI Engine",
+            "cores": 2,
+            "base_frequency_ghz": 1.3,
+            "ai_engines": 400,
+            "dsp_slices": 1968,
+            "power_consumption_w": 20,
+            "process_node_nm": 7
+          },
+          "reliability": {
+            "operating_temp_range": "-40°C to +100°C",
+            "radiation_tolerance": "100 krad(Si)",
+            "mtbf_hours": 2000000
+          }
         },
         "interconnect_effects": {
           "memory_bandwidth_gbps": 68,
@@ -153,25 +212,31 @@
           "power_overhead_w": 4,
           "thermal_dissipation": "主动散热"
         }
-      }
-    ],
-    "gpus": [
+      },
       {
         "name": "NVIDIA Jetson AGX Orin",
-        "type": "GPU",
-        "category": "AI加速器",
-        "parameters": {
-          "architecture": "Ampere",
-          "cuda_cores": 2048,
-          "tensor_cores": 64,
-          "memory_gb": 32,
-          "memory_bandwidth_gbps": 204.8,
-          "ai_performance_tops": 275,
-          "power_consumption_w": 60,
-          "operating_temp_range": "-25°C to +80°C",
-          "radiation_tolerance": "30 krad(Si)",
-          "mtbf_hours": 500000,
-          "process_node_nm": 8
+        "type": "SoC",
+        "original_category": "AI加速器",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "AI加速器 - GPU",
+            "features": []
+          },
+          "performance": {
+            "architecture": "Ampere",
+            "cuda_cores": 2048,
+            "tensor_cores": 64,
+            "memory_gb": 32,
+            "memory_bandwidth_gbps": 204.8,
+            "ai_performance_tops": 275,
+            "power_consumption_w": 60,
+            "process_node_nm": 8
+          },
+          "reliability": {
+            "operating_temp_range": "-25°C to +80°C",
+            "radiation_tolerance": "30 krad(Si)",
+            "mtbf_hours": 500000
+          }
         },
         "interconnect_effects": {
           "pcie_bandwidth_gbps": 64,
@@ -183,19 +248,27 @@
       },
       {
         "name": "AMD Radeon Pro W6600M",
-        "type": "GPU",
-        "category": "专业图形处理器",
-        "parameters": {
-          "architecture": "RDNA 2",
-          "stream_processors": 1792,
-          "memory_gb": 8,
-          "memory_bandwidth_gbps": 224,
-          "compute_units": 28,
-          "power_consumption_w": 100,
-          "operating_temp_range": "-20°C to +90°C",
-          "radiation_tolerance": "25 krad(Si)",
-          "mtbf_hours": 400000,
-          "process_node_nm": 7
+        "type": "SoC",
+        "original_category": "专业图形处理器",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "专业图形处理器 - GPU",
+            "features": []
+          },
+          "performance": {
+            "architecture": "RDNA 2",
+            "stream_processors": 1792,
+            "memory_gb": 8,
+            "memory_bandwidth_gbps": 224,
+            "compute_units": 28,
+            "power_consumption_w": 100,
+            "process_node_nm": 7
+          },
+          "reliability": {
+            "operating_temp_range": "-20°C to +90°C",
+            "radiation_tolerance": "25 krad(Si)",
+            "mtbf_hours": 400000
+          }
         },
         "interconnect_effects": {
           "pcie_bandwidth_gbps": 32,
@@ -206,18 +279,26 @@
       },
       {
         "name": "Intel Iris Xe MAX",
-        "type": "GPU",
-        "category": "集成图形处理器",
-        "parameters": {
-          "architecture": "Xe-LP",
-          "execution_units": 96,
-          "memory_gb": 4,
-          "memory_bandwidth_gbps": 68,
-          "power_consumption_w": 25,
-          "operating_temp_range": "-40°C to +85°C",
-          "radiation_tolerance": "40 krad(Si)",
-          "mtbf_hours": 600000,
-          "process_node_nm": 10
+        "type": "SoC",
+        "original_category": "集成图形处理器",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "集成图形处理器 - GPU",
+            "features": []
+          },
+          "performance": {
+            "architecture": "Xe-LP",
+            "execution_units": 96,
+            "memory_gb": 4,
+            "memory_bandwidth_gbps": 68,
+            "power_consumption_w": 25,
+            "process_node_nm": 10
+          },
+          "reliability": {
+            "operating_temp_range": "-40°C to +85°C",
+            "radiation_tolerance": "40 krad(Si)",
+            "mtbf_hours": 600000
+          }
         },
         "interconnect_effects": {
           "pcie_bandwidth_gbps": 16,
@@ -228,19 +309,27 @@
       },
       {
         "name": "Xilinx Kintex UltraScale+ FPGA",
-        "type": "GPU",
-        "category": "可重构图形加速器",
-        "parameters": {
-          "architecture": "FPGA",
-          "logic_cells": 1143000,
-          "dsp_slices": 5520,
-          "block_ram_mb": 75.9,
-          "memory_controllers": 4,
-          "power_consumption_w": 35,
-          "operating_temp_range": "-40°C to +100°C",
-          "radiation_tolerance": "200 krad(Si)",
-          "mtbf_hours": 3000000,
-          "process_node_nm": 16
+        "type": "SoC",
+        "original_category": "可重构图形加速器",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "可重构图形加速器 - GPU",
+            "features": []
+          },
+          "performance": {
+            "architecture": "FPGA",
+            "logic_cells": 1143000,
+            "dsp_slices": 5520,
+            "block_ram_mb": 75.9,
+            "memory_controllers": 4,
+            "power_consumption_w": 35,
+            "process_node_nm": 16
+          },
+          "reliability": {
+            "operating_temp_range": "-40°C to +100°C",
+            "radiation_tolerance": "200 krad(Si)",
+            "mtbf_hours": 3000000
+          }
         },
         "interconnect_effects": {
           "pcie_bandwidth_gbps": 32,
@@ -251,19 +340,27 @@
       },
       {
         "name": "Microsemi PolarFire FPGA",
-        "type": "GPU",
-        "category": "低功耗抗辐射图形处理器",
-        "parameters": {
-          "architecture": "FPGA",
-          "logic_elements": 500000,
-          "math_blocks": 2040,
-          "memory_mb": 32,
-          "power_consumption_w": 8,
-          "operating_temp_range": "-55°C to +125°C",
-          "radiation_tolerance": "300 krad(Si)",
-          "mtbf_hours": 8000000,
-          "process_node_nm": 28,
-          "space_qualified": true
+        "type": "SoC",
+        "original_category": "低功耗抗辐射图形处理器",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "低功耗抗辐射图形处理器 - GPU",
+            "features": []
+          },
+          "performance": {
+            "architecture": "FPGA",
+            "logic_elements": 500000,
+            "math_blocks": 2040,
+            "memory_mb": 32,
+            "power_consumption_w": 8,
+            "process_node_nm": 28
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "300 krad(Si)",
+            "mtbf_hours": 8000000,
+            "space_qualified": true
+          }
         },
         "interconnect_effects": {
           "pcie_bandwidth_gbps": 8,
@@ -274,20 +371,28 @@
       },
       {
         "name": "NVIDIA Jetson Xavier NX",
-        "type": "GPU",
-        "category": "边缘AI计算模块",
-        "parameters": {
-          "architecture": "Volta",
-          "cuda_cores": 384,
-          "tensor_cores": 48,
-          "memory_gb": 8,
-          "memory_bandwidth_gbps": 51.2,
-          "ai_performance_tops": 21,
-          "power_consumption_w": 15,
-          "operating_temp_range": "-25°C to +80°C",
-          "radiation_tolerance": "50 krad(Si)",
-          "mtbf_hours": 800000,
-          "process_node_nm": 12
+        "type": "SoC",
+        "original_category": "边缘AI计算模块",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "边缘AI计算模块 - GPU",
+            "features": []
+          },
+          "performance": {
+            "architecture": "Volta",
+            "cuda_cores": 384,
+            "tensor_cores": 48,
+            "memory_gb": 8,
+            "memory_bandwidth_gbps": 51.2,
+            "ai_performance_tops": 21,
+            "power_consumption_w": 15,
+            "process_node_nm": 12
+          },
+          "reliability": {
+            "operating_temp_range": "-25°C to +80°C",
+            "radiation_tolerance": "50 krad(Si)",
+            "mtbf_hours": 800000
+          }
         },
         "interconnect_effects": {
           "pcie_bandwidth_gbps": 16,
@@ -295,24 +400,411 @@
           "power_overhead_w": 3,
           "thermal_dissipation": "主动风冷"
         }
+      },
+      {
+        "name": "ARM Cortex-R52 Rad-Hard",
+        "type": "SoC",
+        "original_category": "Real-time Processor",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "Radiation-hardened real-time processor for critical control",
+            "features": [
+              "Real-time control",
+              "Safety critical"
+            ]
+          },
+          "performance": {
+            "architecture": "ARMv8-R",
+            "cores": 4,
+            "base_frequency_ghz": 1.0,
+            "power_consumption_w": 2.5,
+            "process_node_nm": 28
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "300 krad(Si)",
+            "mtbf_hours": 5000000,
+            "space_qualified": true
+          }
+        },
+        "interconnect_effects": {
+          "memory_bandwidth_gbps": 12.8,
+          "pcie_lanes": 8,
+          "thermal_dissipation": "Passive/Active"
+        }
+      },
+      {
+        "name": "Space-Grade GPU Accelerator",
+        "type": "SoC",
+        "original_category": "Image Processing Unit",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "Dedicated GPU for hyperspectral image processing",
+            "features": [
+              "Parallel processing",
+              "Image analysis"
+            ]
+          },
+          "performance": {
+            "architecture": "Custom GPU",
+            "cores": 256,
+            "base_frequency_mhz": 600,
+            "power_consumption_w": 4.0,
+            "process_node_nm": 28
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "100 krad(Si)",
+            "mtbf_hours": 2000000,
+            "space_qualified": true
+          }
+        },
+        "interconnect_effects": {
+          "memory_bandwidth_gbps": 25.6,
+          "thermal_dissipation": "Active cooling required"
+        }
       }
     ],
-    "memory": [
+    "ASIC": [
+      {
+        "name": "STM32H7A3ZI",
+        "type": "ASIC",
+        "original_category": "高性能微控制器",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "高性能微控制器 - Controller",
+            "features": []
+          },
+          "performance": {
+            "architecture": "ARM Cortex-M7",
+            "frequency_mhz": 280,
+            "flash_memory_mb": 2,
+            "ram_kb": 1056,
+            "gpio_pins": 114,
+            "adc_channels": 20,
+            "power_consumption_mw": 300,
+            "interfaces": [
+              "SPI",
+              "I2C",
+              "UART",
+              "CAN",
+              "USB"
+            ]
+          },
+          "reliability": {
+            "operating_temp_range": "-40°C to +85°C",
+            "radiation_tolerance": "100 krad(Si)",
+            "mtbf_hours": 3000000
+          }
+        },
+        "interconnect_effects": {
+          "peripheral_count": 25,
+          "interrupt_latency_ns": 12,
+          "power_overhead_mw": 50,
+          "real_time_capability": "确定性实时响应"
+        }
+      },
+      {
+        "name": "Xilinx Zynq UltraScale+ MPSoC",
+        "type": "ASIC",
+        "original_category": "FPGA系统级芯片",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "FPGA系统级芯片 - Controller",
+            "features": []
+          },
+          "performance": {
+            "architecture": "ARM Cortex-A53 + FPGA",
+            "cpu_cores": 4,
+            "frequency_mhz": 1500,
+            "fpga_logic_cells": 600000,
+            "dsp_slices": 2520,
+            "memory_controllers": 4,
+            "power_consumption_w": 12,
+            "interfaces": [
+              "PCIe",
+              "USB",
+              "Ethernet",
+              "CAN"
+            ]
+          },
+          "reliability": {
+            "operating_temp_range": "-40°C to +100°C",
+            "radiation_tolerance": "75 krad(Si)",
+            "mtbf_hours": 2000000
+          }
+        },
+        "interconnect_effects": {
+          "reconfigurable_io": 500,
+          "latency_ns": 5,
+          "power_overhead_w": 3,
+          "real_time_capability": "硬件加速实时处理"
+        }
+      },
+      {
+        "name": "Atmel AT697F LEON3FT",
+        "type": "ASIC",
+        "original_category": "容错航空航天处理器",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "容错航空航天处理器 - Controller",
+            "features": []
+          },
+          "performance": {
+            "architecture": "SPARC V8 LEON3FT",
+            "frequency_mhz": 100,
+            "cache_l1_kb": 16,
+            "cache_l2_kb": 256,
+            "fpu_support": true,
+            "power_consumption_w": 2,
+            "interfaces": [
+              "SpaceWire",
+              "UART",
+              "SPI",
+              "I2C"
+            ]
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "300 krad(Si)",
+            "mtbf_hours": 12000000,
+            "space_qualified": true
+          }
+        },
+        "interconnect_effects": {
+          "spacewire_links": 4,
+          "latency_ns": 50,
+          "power_overhead_w": 0.5,
+          "real_time_capability": "硬件容错实时处理"
+        }
+      },
+      {
+        "name": "Texas Instruments TMS570LS3137",
+        "type": "ASIC",
+        "original_category": "安全关键微控制器",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "安全关键微控制器 - Controller",
+            "features": []
+          },
+          "performance": {
+            "architecture": "ARM Cortex-R4F",
+            "frequency_mhz": 180,
+            "flash_memory_mb": 3,
+            "ram_kb": 256,
+            "safety_features": [
+              "ECC",
+              "BIST",
+              "LBIST"
+            ],
+            "power_consumption_mw": 400,
+            "interfaces": [
+              "CAN",
+              "FlexRay",
+              "SPI",
+              "I2C",
+              "UART"
+            ]
+          },
+          "reliability": {
+            "operating_temp_range": "-40°C to +150°C",
+            "radiation_tolerance": "200 krad(Si)",
+            "mtbf_hours": 5000000
+          }
+        },
+        "interconnect_effects": {
+          "can_channels": 3,
+          "flexray_channels": 2,
+          "latency_ns": 25,
+          "power_overhead_mw": 80,
+          "real_time_capability": "安全关键实时响应"
+        }
+      },
+      {
+        "name": "NXP S32K358",
+        "type": "ASIC",
+        "original_category": "汽车级安全微控制器",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "汽车级安全微控制器 - Controller",
+            "features": []
+          },
+          "performance": {
+            "architecture": "ARM Cortex-M7",
+            "frequency_mhz": 160,
+            "flash_memory_mb": 4,
+            "ram_kb": 704,
+            "hse_security": true,
+            "power_consumption_mw": 250,
+            "interfaces": [
+              "CAN-FD",
+              "Ethernet",
+              "SPI",
+              "I2C",
+              "UART"
+            ]
+          },
+          "reliability": {
+            "operating_temp_range": "-40°C to +125°C",
+            "radiation_tolerance": "150 krad(Si)",
+            "mtbf_hours": 4000000
+          }
+        },
+        "interconnect_effects": {
+          "can_fd_channels": 6,
+          "ethernet_speed_mbps": 100,
+          "latency_ns": 15,
+          "power_overhead_mw": 60,
+          "real_time_capability": "确定性安全实时处理"
+        }
+      },
+      {
+        "name": "Piezoelectric Drill Controller ASIC",
+        "type": "ASIC",
+        "original_category": "Actuator Controller",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "Precision controller for piezoelectric drills",
+            "features": [
+              "High voltage drive",
+              "Frequency tracking"
+            ]
+          },
+          "performance": {
+            "output_voltage_v": 200,
+            "frequency_range_khz": "20-50",
+            "power_consumption_w": 1.5
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "100 krad(Si)",
+            "space_qualified": true
+          }
+        },
+        "interconnect_effects": {}
+      },
+      {
+        "name": "MEMS Pump/Valve Controller ASIC",
+        "type": "ASIC",
+        "original_category": "Actuator Controller",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "Timing and drive control for MEMS fluidics",
+            "features": [
+              "Micro-fluidic control",
+              "Precise timing"
+            ]
+          },
+          "performance": {
+            "channels": 8,
+            "resolution_bit": 12,
+            "power_consumption_mw": 500
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "100 krad(Si)",
+            "space_qualified": true
+          }
+        },
+        "interconnect_effects": {}
+      },
+      {
+        "name": "Space CAN Controller",
+        "type": "ASIC",
+        "original_category": "Communication Controller",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "Reliable bus controller for actuators",
+            "features": [
+              "CAN 2.0B",
+              "Fault confinement"
+            ]
+          },
+          "performance": {
+            "data_rate_mbps": 1,
+            "power_consumption_mw": 150
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "300 krad(Si)",
+            "space_qualified": true
+          }
+        },
+        "interconnect_effects": {}
+      }
+    ],
+    "SiP": [
+      {
+        "name": "Generic Aerospace SiP",
+        "type": "SiP",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "System in Package for Aerospace",
+            "features": [
+              "Integrated Memory",
+              "Processor"
+            ]
+          },
+          "performance": {
+            "power_w": 10,
+            "dimensions_mm": "20x20"
+          },
+          "reliability": {
+            "radiation_tolerance": "100krad",
+            "mtbf_hours": 1000000
+          }
+        },
+        "interconnect_effects": {}
+      }
+    ],
+    "Connectors": [
+      {
+        "name": "High-Speed Aerospace Connector",
+        "type": "Connectors",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "High speed data transmission",
+            "features": [
+              "Ruggedized",
+              "Gold plated"
+            ]
+          },
+          "performance": {
+            "bandwidth_gbps": 10,
+            "insertion_loss_db": 0.5
+          },
+          "reliability": {
+            "mating_cycles": 500,
+            "temp_range": "-55 to 125C"
+          }
+        },
+        "interconnect_effects": {}
+      }
+    ],
+    "Memory": [
       {
         "name": "DDR5-4800 ECC",
         "type": "Memory",
-        "category": "高性能系统内存",
-        "parameters": {
-          "capacity_gb": 32,
-          "frequency_mhz": 4800,
-          "bandwidth_gbps": 76.8,
-          "latency_ns": 13.75,
-          "ecc_support": true,
-          "power_consumption_w": 8,
-          "operating_temp_range": "-40°C to +85°C",
-          "radiation_tolerance": "100 krad(Si)",
-          "mtbf_hours": 2000000,
-          "voltage_v": 1.1
+        "original_category": "高性能系统内存",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "高性能系统内存 - Memory",
+            "features": []
+          },
+          "performance": {
+            "capacity_gb": 32,
+            "frequency_mhz": 4800,
+            "bandwidth_gbps": 76.8,
+            "latency_ns": 13.75,
+            "ecc_support": true,
+            "power_consumption_w": 8,
+            "voltage_v": 1.1
+          },
+          "reliability": {
+            "operating_temp_range": "-40°C to +85°C",
+            "radiation_tolerance": "100 krad(Si)",
+            "mtbf_hours": 2000000
+          }
         },
         "interconnect_effects": {
           "channels": 2,
@@ -325,18 +817,26 @@
       {
         "name": "LPDDR5X-6400",
         "type": "Memory",
-        "category": "低功耗移动内存",
-        "parameters": {
-          "capacity_gb": 16,
-          "frequency_mhz": 6400,
-          "bandwidth_gbps": 51.2,
-          "latency_ns": 16,
-          "ecc_support": false,
-          "power_consumption_w": 3.2,
-          "operating_temp_range": "-25°C to +85°C",
-          "radiation_tolerance": "50 krad(Si)",
-          "mtbf_hours": 1500000,
-          "voltage_v": 0.5
+        "original_category": "低功耗移动内存",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "低功耗移动内存 - Memory",
+            "features": []
+          },
+          "performance": {
+            "capacity_gb": 16,
+            "frequency_mhz": 6400,
+            "bandwidth_gbps": 51.2,
+            "latency_ns": 16,
+            "ecc_support": false,
+            "power_consumption_w": 3.2,
+            "voltage_v": 0.5
+          },
+          "reliability": {
+            "operating_temp_range": "-25°C to +85°C",
+            "radiation_tolerance": "50 krad(Si)",
+            "mtbf_hours": 1500000
+          }
         },
         "interconnect_effects": {
           "channels": 4,
@@ -349,18 +849,26 @@
       {
         "name": "HBM3-6400",
         "type": "Memory",
-        "category": "高带宽内存",
-        "parameters": {
-          "capacity_gb": 24,
-          "frequency_mhz": 6400,
-          "bandwidth_gbps": 819.2,
-          "latency_ns": 10,
-          "ecc_support": true,
-          "power_consumption_w": 15,
-          "operating_temp_range": "-40°C to +95°C",
-          "radiation_tolerance": "75 krad(Si)",
-          "mtbf_hours": 1000000,
-          "voltage_v": 1.2
+        "original_category": "高带宽内存",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "高带宽内存 - Memory",
+            "features": []
+          },
+          "performance": {
+            "capacity_gb": 24,
+            "frequency_mhz": 6400,
+            "bandwidth_gbps": 819.2,
+            "latency_ns": 10,
+            "ecc_support": true,
+            "power_consumption_w": 15,
+            "voltage_v": 1.2
+          },
+          "reliability": {
+            "operating_temp_range": "-40°C to +95°C",
+            "radiation_tolerance": "75 krad(Si)",
+            "mtbf_hours": 1000000
+          }
         },
         "interconnect_effects": {
           "channels": 16,
@@ -373,19 +881,27 @@
       {
         "name": "Microsemi RT ProASIC3 SRAM",
         "type": "Memory",
-        "category": "抗辐射静态随机存储器",
-        "parameters": {
-          "capacity_mb": 256,
-          "frequency_mhz": 200,
-          "bandwidth_gbps": 6.4,
-          "latency_ns": 5,
-          "ecc_support": true,
-          "power_consumption_w": 2,
-          "operating_temp_range": "-55°C to +125°C",
-          "radiation_tolerance": "300 krad(Si)",
-          "mtbf_hours": 8000000,
-          "voltage_v": 1.5,
-          "space_qualified": true
+        "original_category": "抗辐射静态随机存储器",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "抗辐射静态随机存储器 - Memory",
+            "features": []
+          },
+          "performance": {
+            "capacity_mb": 256,
+            "frequency_mhz": 200,
+            "bandwidth_gbps": 6.4,
+            "latency_ns": 5,
+            "ecc_support": true,
+            "power_consumption_w": 2,
+            "voltage_v": 1.5
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "300 krad(Si)",
+            "mtbf_hours": 8000000,
+            "space_qualified": true
+          }
         },
         "interconnect_effects": {
           "channels": 1,
@@ -398,19 +914,27 @@
       {
         "name": "BAE Systems RAD-PAK DDR3",
         "type": "Memory",
-        "category": "航空航天级DDR3内存",
-        "parameters": {
-          "capacity_gb": 8,
-          "frequency_mhz": 1600,
-          "bandwidth_gbps": 12.8,
-          "latency_ns": 11,
-          "ecc_support": true,
-          "power_consumption_w": 3.5,
-          "operating_temp_range": "-55°C to +125°C",
-          "radiation_tolerance": "1000 krad(Si)",
-          "mtbf_hours": 15000000,
-          "voltage_v": 1.35,
-          "space_qualified": true
+        "original_category": "航空航天级DDR3内存",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "航空航天级DDR3内存 - Memory",
+            "features": []
+          },
+          "performance": {
+            "capacity_gb": 8,
+            "frequency_mhz": 1600,
+            "bandwidth_gbps": 12.8,
+            "latency_ns": 11,
+            "ecc_support": true,
+            "power_consumption_w": 3.5,
+            "voltage_v": 1.35
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "1000 krad(Si)",
+            "mtbf_hours": 15000000,
+            "space_qualified": true
+          }
         },
         "interconnect_effects": {
           "channels": 1,
@@ -419,25 +943,86 @@
           "power_overhead_w": 0.8,
           "thermal_coupling": "中等热耦合"
         }
+      },
+      {
+        "name": "Rad-Hard SRAM 16Mb",
+        "type": "Memory",
+        "original_category": "Volatile Memory",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "High reliability SRAM for program execution",
+            "features": [
+              "Fast access",
+              "SEU immune"
+            ]
+          },
+          "performance": {
+            "capacity_mb": 16,
+            "access_time_ns": 10,
+            "power_consumption_mw": 200
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "1 Mrad(Si)",
+            "mtbf_hours": 10000000,
+            "space_qualified": true
+          }
+        },
+        "interconnect_effects": {}
+      },
+      {
+        "name": "LPDDR4 Space Grade 4GB",
+        "type": "Memory",
+        "original_category": "Volatile Memory",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "Low power DDR4 for data caching",
+            "features": [
+              "Low power",
+              "High bandwidth",
+              "ECC"
+            ]
+          },
+          "performance": {
+            "capacity_gb": 4,
+            "data_rate_mbps": 3200,
+            "power_consumption_w": 0.5
+          },
+          "reliability": {
+            "operating_temp_range": "-40°C to +105°C",
+            "radiation_tolerance": "100 krad(Si)",
+            "mtbf_hours": 3000000,
+            "space_qualified": true
+          }
+        },
+        "interconnect_effects": {}
       }
     ],
-    "storage": [
+    "Storage": [
       {
         "name": "Samsung 980 PRO NVMe SSD",
         "type": "Storage",
-        "category": "高性能固态存储",
-        "parameters": {
-          "capacity_tb": 2,
-          "interface": "PCIe 4.0 x4",
-          "sequential_read_mbps": 7000,
-          "sequential_write_mbps": 5100,
-          "random_read_iops": 1000000,
-          "random_write_iops": 1000000,
-          "power_consumption_w": 6.8,
-          "operating_temp_range": "0°C to +70°C",
-          "radiation_tolerance": "20 krad(Si)",
-          "mtbf_hours": 1500000,
-          "endurance_tbw": 1200
+        "original_category": "高性能固态存储",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "高性能固态存储 - Storage",
+            "features": []
+          },
+          "performance": {
+            "capacity_tb": 2,
+            "interface": "PCIe 4.0 x4",
+            "sequential_read_mbps": 7000,
+            "sequential_write_mbps": 5100,
+            "random_read_iops": 1000000,
+            "random_write_iops": 1000000,
+            "power_consumption_w": 6.8,
+            "endurance_tbw": 1200
+          },
+          "reliability": {
+            "operating_temp_range": "0°C to +70°C",
+            "radiation_tolerance": "20 krad(Si)",
+            "mtbf_hours": 1500000
+          }
         },
         "interconnect_effects": {
           "pcie_lanes_required": 4,
@@ -449,20 +1034,28 @@
       {
         "name": "Microsemi SSD 3D NAND",
         "type": "Storage",
-        "category": "航空航天级固态存储",
-        "parameters": {
-          "capacity_tb": 1,
-          "interface": "SATA 6Gb/s",
-          "sequential_read_mbps": 550,
-          "sequential_write_mbps": 520,
-          "random_read_iops": 95000,
-          "random_write_iops": 85000,
-          "power_consumption_w": 2.5,
-          "operating_temp_range": "-55°C to +125°C",
-          "radiation_tolerance": "300 krad(Si)",
-          "mtbf_hours": 5000000,
-          "endurance_tbw": 2000,
-          "space_qualified": true
+        "original_category": "航空航天级固态存储",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "航空航天级固态存储 - Storage",
+            "features": []
+          },
+          "performance": {
+            "capacity_tb": 1,
+            "interface": "SATA 6Gb/s",
+            "sequential_read_mbps": 550,
+            "sequential_write_mbps": 520,
+            "random_read_iops": 95000,
+            "random_write_iops": 85000,
+            "power_consumption_w": 2.5,
+            "endurance_tbw": 2000
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "300 krad(Si)",
+            "mtbf_hours": 5000000,
+            "space_qualified": true
+          }
         },
         "interconnect_effects": {
           "sata_lanes_required": 1,
@@ -474,19 +1067,27 @@
       {
         "name": "Intel Optane DC P4800X",
         "type": "Storage",
-        "category": "超低延迟存储",
-        "parameters": {
-          "capacity_tb": 1.5,
-          "interface": "PCIe 3.0 x4",
-          "sequential_read_mbps": 2400,
-          "sequential_write_mbps": 2000,
-          "random_read_iops": 550000,
-          "random_write_iops": 500000,
-          "power_consumption_w": 18,
-          "operating_temp_range": "0°C to +70°C",
-          "radiation_tolerance": "50 krad(Si)",
-          "mtbf_hours": 2000000,
-          "endurance_dwpd": 30
+        "original_category": "超低延迟存储",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "超低延迟存储 - Storage",
+            "features": []
+          },
+          "performance": {
+            "capacity_tb": 1.5,
+            "interface": "PCIe 3.0 x4",
+            "sequential_read_mbps": 2400,
+            "sequential_write_mbps": 2000,
+            "random_read_iops": 550000,
+            "random_write_iops": 500000,
+            "power_consumption_w": 18,
+            "endurance_dwpd": 30
+          },
+          "reliability": {
+            "operating_temp_range": "0°C to +70°C",
+            "radiation_tolerance": "50 krad(Si)",
+            "mtbf_hours": 2000000
+          }
         },
         "interconnect_effects": {
           "pcie_lanes_required": 4,
@@ -498,19 +1099,27 @@
       {
         "name": "Micron 7450 NVMe SSD",
         "type": "Storage",
-        "category": "企业级固态存储",
-        "parameters": {
-          "capacity_tb": 3.84,
-          "interface": "PCIe 4.0 x4",
-          "sequential_read_mbps": 6900,
-          "sequential_write_mbps": 5200,
-          "random_read_iops": 1500000,
-          "random_write_iops": 800000,
-          "power_consumption_w": 20,
-          "operating_temp_range": "0°C to +70°C",
-          "radiation_tolerance": "30 krad(Si)",
-          "mtbf_hours": 2500000,
-          "endurance_dwpd": 3
+        "original_category": "企业级固态存储",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "企业级固态存储 - Storage",
+            "features": []
+          },
+          "performance": {
+            "capacity_tb": 3.84,
+            "interface": "PCIe 4.0 x4",
+            "sequential_read_mbps": 6900,
+            "sequential_write_mbps": 5200,
+            "random_read_iops": 1500000,
+            "random_write_iops": 800000,
+            "power_consumption_w": 20,
+            "endurance_dwpd": 3
+          },
+          "reliability": {
+            "operating_temp_range": "0°C to +70°C",
+            "radiation_tolerance": "30 krad(Si)",
+            "mtbf_hours": 2500000
+          }
         },
         "interconnect_effects": {
           "pcie_lanes_required": 4,
@@ -522,18 +1131,26 @@
       {
         "name": "BAE Systems RAD-PAK EEPROM",
         "type": "Storage",
-        "category": "抗辐射非易失性存储",
-        "parameters": {
-          "capacity_mb": 512,
-          "interface": "SPI",
-          "read_speed_mbps": 50,
-          "write_speed_mbps": 25,
-          "power_consumption_mw": 50,
-          "operating_temp_range": "-55°C to +125°C",
-          "radiation_tolerance": "1000 krad(Si)",
-          "mtbf_hours": 10000000,
-          "endurance_cycles": 1000000,
-          "space_qualified": true
+        "original_category": "抗辐射非易失性存储",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "抗辐射非易失性存储 - Storage",
+            "features": []
+          },
+          "performance": {
+            "capacity_mb": 512,
+            "interface": "SPI",
+            "read_speed_mbps": 50,
+            "write_speed_mbps": 25,
+            "power_consumption_mw": 50,
+            "endurance_cycles": 1000000
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "1000 krad(Si)",
+            "mtbf_hours": 10000000,
+            "space_qualified": true
+          }
         },
         "interconnect_effects": {
           "spi_lanes_required": 1,
@@ -541,24 +1158,62 @@
           "power_overhead_mw": 10,
           "thermal_dissipation": "被动散热"
         }
+      },
+      {
+        "name": "Rad-Hard NAND Flash 256GB",
+        "type": "Storage",
+        "original_category": "Non-Volatile Storage",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "Mass storage for scientific data",
+            "features": [
+              "High density",
+              "Wear leveling"
+            ]
+          },
+          "performance": {
+            "capacity_gb": 256,
+            "read_speed_mbps": 500,
+            "write_speed_mbps": 350,
+            "power_consumption_w": 1.2
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "100 krad(Si)",
+            "endurance_cycles": 100000,
+            "space_qualified": true
+          }
+        },
+        "interconnect_effects": {}
       }
     ],
-    "sensors": [
+    "Sensors": [
       {
         "name": "Bosch BMI088",
-        "type": "Sensor",
-        "category": "惯性测量单元",
-        "parameters": {
-          "sensor_types": ["加速度计", "陀螺仪"],
-          "accelerometer_range_g": "±3, ±6, ±12, ±24",
-          "gyroscope_range_dps": "±125, ±250, ±500, ±1000, ±2000",
-          "sampling_rate_hz": 1600,
-          "resolution_bits": 16,
-          "power_consumption_mw": 5,
-          "operating_temp_range": "-40°C to +85°C",
-          "radiation_tolerance": "100 krad(Si)",
-          "mtbf_hours": 5000000,
-          "interface": "SPI/I2C"
+        "type": "Sensors",
+        "original_category": "惯性测量单元",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "惯性测量单元 - Sensor",
+            "features": []
+          },
+          "performance": {
+            "sensor_types": [
+              "加速度计",
+              "陀螺仪"
+            ],
+            "accelerometer_range_g": "±3, ±6, ±12, ±24",
+            "gyroscope_range_dps": "±125, ±250, ±500, ±1000, ±2000",
+            "sampling_rate_hz": 1600,
+            "resolution_bits": 16,
+            "power_consumption_mw": 5,
+            "interface": "SPI/I2C"
+          },
+          "reliability": {
+            "operating_temp_range": "-40°C to +85°C",
+            "radiation_tolerance": "100 krad(Si)",
+            "mtbf_hours": 5000000
+          }
         },
         "interconnect_effects": {
           "data_rate_mbps": 10,
@@ -569,18 +1224,28 @@
       },
       {
         "name": "Honeywell HMC5883L",
-        "type": "Sensor",
-        "category": "磁力计",
-        "parameters": {
-          "sensor_types": ["三轴磁力计"],
-          "measurement_range_gauss": "±1.3 to ±8.1",
-          "resolution_mgauss": 5,
-          "sampling_rate_hz": 75,
-          "power_consumption_mw": 0.1,
-          "operating_temp_range": "-30°C to +85°C",
-          "radiation_tolerance": "150 krad(Si)",
-          "mtbf_hours": 8000000,
-          "interface": "I2C"
+        "type": "Sensors",
+        "original_category": "磁力计",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "磁力计 - Sensor",
+            "features": []
+          },
+          "performance": {
+            "sensor_types": [
+              "三轴磁力计"
+            ],
+            "measurement_range_gauss": "±1.3 to ±8.1",
+            "resolution_mgauss": 5,
+            "sampling_rate_hz": 75,
+            "power_consumption_mw": 0.1,
+            "interface": "I2C"
+          },
+          "reliability": {
+            "operating_temp_range": "-30°C to +85°C",
+            "radiation_tolerance": "150 krad(Si)",
+            "mtbf_hours": 8000000
+          }
         },
         "interconnect_effects": {
           "data_rate_kbps": 400,
@@ -591,19 +1256,29 @@
       },
       {
         "name": "FLIR Lepton 3.5",
-        "type": "Sensor",
-        "category": "热成像传感器",
-        "parameters": {
-          "sensor_types": ["红外热成像"],
-          "resolution": "160x120",
-          "spectral_range_um": "8-14",
-          "frame_rate_fps": 9,
-          "thermal_sensitivity_mk": 50,
-          "power_consumption_mw": 150,
-          "operating_temp_range": "-10°C to +80°C",
-          "radiation_tolerance": "20 krad(Si)",
-          "mtbf_hours": 3000000,
-          "interface": "SPI"
+        "type": "Sensors",
+        "original_category": "热成像传感器",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "热成像传感器 - Sensor",
+            "features": []
+          },
+          "performance": {
+            "sensor_types": [
+              "红外热成像"
+            ],
+            "resolution": "160x120",
+            "spectral_range_um": "8-14",
+            "frame_rate_fps": 9,
+            "thermal_sensitivity_mk": 50,
+            "power_consumption_mw": 150,
+            "interface": "SPI"
+          },
+          "reliability": {
+            "operating_temp_range": "-10°C to +80°C",
+            "radiation_tolerance": "20 krad(Si)",
+            "mtbf_hours": 3000000
+          }
         },
         "interconnect_effects": {
           "data_rate_mbps": 20,
@@ -614,19 +1289,30 @@
       },
       {
         "name": "Infineon DPS310",
-        "type": "Sensor",
-        "category": "气压传感器",
-        "parameters": {
-          "sensor_types": ["气压", "温度"],
-          "pressure_range_hpa": "300-1200",
-          "pressure_accuracy_pa": 5,
-          "temperature_accuracy_c": 0.5,
-          "sampling_rate_hz": 128,
-          "power_consumption_mw": 1.7,
-          "operating_temp_range": "-40°C to +85°C",
-          "radiation_tolerance": "100 krad(Si)",
-          "mtbf_hours": 6000000,
-          "interface": "I2C/SPI"
+        "type": "Sensors",
+        "original_category": "气压传感器",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "气压传感器 - Sensor",
+            "features": []
+          },
+          "performance": {
+            "sensor_types": [
+              "气压",
+              "温度"
+            ],
+            "pressure_range_hpa": "300-1200",
+            "pressure_accuracy_pa": 5,
+            "temperature_accuracy_c": 0.5,
+            "sampling_rate_hz": 128,
+            "power_consumption_mw": 1.7,
+            "interface": "I2C/SPI"
+          },
+          "reliability": {
+            "operating_temp_range": "-40°C to +85°C",
+            "radiation_tolerance": "100 krad(Si)",
+            "mtbf_hours": 6000000
+          }
         },
         "interconnect_effects": {
           "data_rate_kbps": 1000,
@@ -637,18 +1323,29 @@
       },
       {
         "name": "Hamamatsu S11059-02DT",
-        "type": "Sensor",
-        "category": "光谱传感器",
-        "parameters": {
-          "sensor_types": ["RGB光谱", "红外光谱"],
-          "spectral_range_nm": "340-850",
-          "resolution_bits": 16,
-          "sampling_rate_hz": 100,
-          "power_consumption_mw": 3.3,
-          "operating_temp_range": "-30°C to +85°C",
-          "radiation_tolerance": "200 krad(Si)",
-          "mtbf_hours": 4000000,
-          "interface": "I2C"
+        "type": "Sensors",
+        "original_category": "光谱传感器",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "光谱传感器 - Sensor",
+            "features": []
+          },
+          "performance": {
+            "sensor_types": [
+              "RGB光谱",
+              "红外光谱"
+            ],
+            "spectral_range_nm": "340-850",
+            "resolution_bits": 16,
+            "sampling_rate_hz": 100,
+            "power_consumption_mw": 3.3,
+            "interface": "I2C"
+          },
+          "reliability": {
+            "operating_temp_range": "-30°C to +85°C",
+            "radiation_tolerance": "200 krad(Si)",
+            "mtbf_hours": 4000000
+          }
         },
         "interconnect_effects": {
           "data_rate_kbps": 400,
@@ -659,19 +1356,29 @@
       },
       {
         "name": "Analog Devices ADXL375",
-        "type": "Sensor",
-        "category": "高冲击加速度计",
-        "parameters": {
-          "sensor_types": ["三轴加速度计"],
-          "measurement_range_g": "±200",
-          "resolution_mg": 49,
-          "sampling_rate_hz": 3200,
-          "power_consumption_mw": 0.145,
-          "operating_temp_range": "-40°C to +85°C",
-          "radiation_tolerance": "300 krad(Si)",
-          "mtbf_hours": 8000000,
-          "interface": "SPI/I2C",
-          "space_qualified": true
+        "type": "Sensors",
+        "original_category": "高冲击加速度计",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "高冲击加速度计 - Sensor",
+            "features": []
+          },
+          "performance": {
+            "sensor_types": [
+              "三轴加速度计"
+            ],
+            "measurement_range_g": "±200",
+            "resolution_mg": 49,
+            "sampling_rate_hz": 3200,
+            "power_consumption_mw": 0.145,
+            "interface": "SPI/I2C"
+          },
+          "reliability": {
+            "operating_temp_range": "-40°C to +85°C",
+            "radiation_tolerance": "300 krad(Si)",
+            "mtbf_hours": 8000000,
+            "space_qualified": true
+          }
         },
         "interconnect_effects": {
           "data_rate_mbps": 5,
@@ -682,18 +1389,28 @@
       },
       {
         "name": "Teledyne DALSA Linea HS",
-        "type": "Sensor",
-        "category": "高速线阵相机",
-        "parameters": {
-          "sensor_types": ["线阵CCD"],
-          "resolution_pixels": 16384,
-          "pixel_size_um": 5,
-          "line_rate_khz": 200,
-          "power_consumption_w": 8,
-          "operating_temp_range": "-10°C to +65°C",
-          "radiation_tolerance": "100 krad(Si)",
-          "mtbf_hours": 2000000,
-          "interface": "Camera Link"
+        "type": "Sensors",
+        "original_category": "高速线阵相机",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "高速线阵相机 - Sensor",
+            "features": []
+          },
+          "performance": {
+            "sensor_types": [
+              "线阵CCD"
+            ],
+            "resolution_pixels": 16384,
+            "pixel_size_um": 5,
+            "line_rate_khz": 200,
+            "power_consumption_w": 8,
+            "interface": "Camera Link"
+          },
+          "reliability": {
+            "operating_temp_range": "-10°C to +65°C",
+            "radiation_tolerance": "100 krad(Si)",
+            "mtbf_hours": 2000000
+          }
         },
         "interconnect_effects": {
           "data_rate_gbps": 6.8,
@@ -703,21 +1420,32 @@
         }
       }
     ],
-    "communication": [
+    "Communication": [
       {
         "name": "Qualcomm X65 5G Modem",
         "type": "Communication",
-        "category": "5G蜂窝通信",
-        "parameters": {
-          "technology": "5G NR Sub-6 + mmWave",
-          "max_download_gbps": 10,
-          "max_upload_gbps": 3.5,
-          "frequency_bands": ["Sub-6GHz", "mmWave 24-40GHz"],
-          "power_consumption_w": 4,
-          "operating_temp_range": "-30°C to +85°C",
-          "radiation_tolerance": "25 krad(Si)",
-          "mtbf_hours": 1000000,
-          "interface": "PCIe 4.0"
+        "original_category": "5G蜂窝通信",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "5G蜂窝通信 - Communication",
+            "features": []
+          },
+          "performance": {
+            "technology": "5G NR Sub-6 + mmWave",
+            "max_download_gbps": 10,
+            "max_upload_gbps": 3.5,
+            "frequency_bands": [
+              "Sub-6GHz",
+              "mmWave 24-40GHz"
+            ],
+            "power_consumption_w": 4,
+            "interface": "PCIe 4.0"
+          },
+          "reliability": {
+            "operating_temp_range": "-30°C to +85°C",
+            "radiation_tolerance": "25 krad(Si)",
+            "mtbf_hours": 1000000
+          }
         },
         "interconnect_effects": {
           "pcie_lanes_required": 2,
@@ -729,17 +1457,29 @@
       {
         "name": "Intel Wi-Fi 6E AX210",
         "type": "Communication",
-        "category": "Wi-Fi无线通信",
-        "parameters": {
-          "technology": "Wi-Fi 6E (802.11ax)",
-          "max_speed_mbps": 2400,
-          "frequency_bands": ["2.4GHz", "5GHz", "6GHz"],
-          "mimo_config": "2x2",
-          "power_consumption_w": 2.5,
-          "operating_temp_range": "-20°C to +70°C",
-          "radiation_tolerance": "30 krad(Si)",
-          "mtbf_hours": 1500000,
-          "interface": "PCIe/USB"
+        "original_category": "Wi-Fi无线通信",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "Wi-Fi无线通信 - Communication",
+            "features": []
+          },
+          "performance": {
+            "technology": "Wi-Fi 6E (802.11ax)",
+            "max_speed_mbps": 2400,
+            "frequency_bands": [
+              "2.4GHz",
+              "5GHz",
+              "6GHz"
+            ],
+            "mimo_config": "2x2",
+            "power_consumption_w": 2.5,
+            "interface": "PCIe/USB"
+          },
+          "reliability": {
+            "operating_temp_range": "-20°C to +70°C",
+            "radiation_tolerance": "30 krad(Si)",
+            "mtbf_hours": 1500000
+          }
         },
         "interconnect_effects": {
           "pcie_lanes_required": 1,
@@ -751,17 +1491,30 @@
       {
         "name": "u-blox ZED-F9P",
         "type": "Communication",
-        "category": "GNSS定位模块",
-        "parameters": {
-          "technology": "多频GNSS RTK",
-          "supported_systems": ["GPS", "GLONASS", "Galileo", "BeiDou"],
-          "accuracy_cm": 1,
-          "update_rate_hz": 20,
-          "power_consumption_mw": 80,
-          "operating_temp_range": "-40°C to +85°C",
-          "radiation_tolerance": "100 krad(Si)",
-          "mtbf_hours": 4000000,
-          "interface": "UART/I2C/SPI"
+        "original_category": "GNSS定位模块",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "GNSS定位模块 - Communication",
+            "features": []
+          },
+          "performance": {
+            "technology": "多频GNSS RTK",
+            "supported_systems": [
+              "GPS",
+              "GLONASS",
+              "Galileo",
+              "BeiDou"
+            ],
+            "accuracy_cm": 1,
+            "update_rate_hz": 20,
+            "power_consumption_mw": 80,
+            "interface": "UART/I2C/SPI"
+          },
+          "reliability": {
+            "operating_temp_range": "-40°C to +85°C",
+            "radiation_tolerance": "100 krad(Si)",
+            "mtbf_hours": 4000000
+          }
         },
         "interconnect_effects": {
           "data_rate_kbps": 460.8,
@@ -773,18 +1526,26 @@
       {
         "name": "Semtech SX1262",
         "type": "Communication",
-        "category": "LoRa长距离通信",
-        "parameters": {
-          "technology": "LoRa",
-          "frequency_range_mhz": "150-960",
-          "max_range_km": 15,
-          "data_rate_kbps": 62.5,
-          "sensitivity_dbm": -148,
-          "power_consumption_mw": 4.2,
-          "operating_temp_range": "-40°C to +85°C",
-          "radiation_tolerance": "150 krad(Si)",
-          "mtbf_hours": 8000000,
-          "interface": "SPI"
+        "original_category": "LoRa长距离通信",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "LoRa长距离通信 - Communication",
+            "features": []
+          },
+          "performance": {
+            "technology": "LoRa",
+            "frequency_range_mhz": "150-960",
+            "max_range_km": 15,
+            "data_rate_kbps": 62.5,
+            "sensitivity_dbm": -148,
+            "power_consumption_mw": 4.2,
+            "interface": "SPI"
+          },
+          "reliability": {
+            "operating_temp_range": "-40°C to +85°C",
+            "radiation_tolerance": "150 krad(Si)",
+            "mtbf_hours": 8000000
+          }
         },
         "interconnect_effects": {
           "data_rate_kbps": 62.5,
@@ -796,19 +1557,27 @@
       {
         "name": "Harris Corporation RF-7800S",
         "type": "Communication",
-        "category": "军用抗干扰电台",
-        "parameters": {
-          "technology": "软件定义无线电",
-          "frequency_range_mhz": "30-512",
-          "max_range_km": 40,
-          "data_rate_kbps": 384,
-          "encryption": "AES-256",
-          "power_consumption_w": 15,
-          "operating_temp_range": "-54°C to +71°C",
-          "radiation_tolerance": "500 krad(Si)",
-          "mtbf_hours": 6000000,
-          "interface": "Ethernet/RS-232",
-          "space_qualified": true
+        "original_category": "军用抗干扰电台",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "军用抗干扰电台 - Communication",
+            "features": []
+          },
+          "performance": {
+            "technology": "软件定义无线电",
+            "frequency_range_mhz": "30-512",
+            "max_range_km": 40,
+            "data_rate_kbps": 384,
+            "encryption": "AES-256",
+            "power_consumption_w": 15,
+            "interface": "Ethernet/RS-232"
+          },
+          "reliability": {
+            "operating_temp_range": "-54°C to +71°C",
+            "radiation_tolerance": "500 krad(Si)",
+            "mtbf_hours": 6000000,
+            "space_qualified": true
+          }
         },
         "interconnect_effects": {
           "ethernet_speed_mbps": 100,
@@ -820,18 +1589,26 @@
       {
         "name": "NASA Deep Space Network Transceiver",
         "type": "Communication",
-        "category": "深空通信收发器",
-        "parameters": {
-          "technology": "X波段深空通信",
-          "frequency_ghz": 8.4,
-          "max_range_au": 50,
-          "data_rate_kbps": 32,
-          "power_consumption_w": 25,
-          "operating_temp_range": "-55°C to +125°C",
-          "radiation_tolerance": "1000 krad(Si)",
-          "mtbf_hours": 20000000,
-          "interface": "专用DSN协议",
-          "space_qualified": true
+        "original_category": "深空通信收发器",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "深空通信收发器 - Communication",
+            "features": []
+          },
+          "performance": {
+            "technology": "X波段深空通信",
+            "frequency_ghz": 8.4,
+            "max_range_au": 50,
+            "data_rate_kbps": 32,
+            "power_consumption_w": 25,
+            "interface": "专用DSN协议"
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "1000 krad(Si)",
+            "mtbf_hours": 20000000,
+            "space_qualified": true
+          }
         },
         "interconnect_effects": {
           "data_rate_kbps": 32,
@@ -839,145 +1616,60 @@
           "power_overhead_w": 5,
           "antenna_requirements": "高增益抛物面天线"
         }
+      },
+      {
+        "name": "SpaceWire Router 4-Port",
+        "type": "Communication",
+        "original_category": "Network Interface",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "High speed onboard data handling network",
+            "features": [
+              "Packet switching",
+              "Flow control"
+            ]
+          },
+          "performance": {
+            "ports": 4,
+            "link_speed_mbps": 200,
+            "power_consumption_w": 0.8
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "300 krad(Si)",
+            "space_qualified": true
+          }
+        },
+        "interconnect_effects": {}
       }
     ],
-    "controllers": [
-      {
-        "name": "STM32H7A3ZI",
-        "type": "Controller",
-        "category": "高性能微控制器",
-        "parameters": {
-          "architecture": "ARM Cortex-M7",
-          "frequency_mhz": 280,
-          "flash_memory_mb": 2,
-          "ram_kb": 1056,
-          "gpio_pins": 114,
-          "adc_channels": 20,
-          "power_consumption_mw": 300,
-          "operating_temp_range": "-40°C to +85°C",
-          "radiation_tolerance": "100 krad(Si)",
-          "mtbf_hours": 3000000,
-          "interfaces": ["SPI", "I2C", "UART", "CAN", "USB"]
-        },
-        "interconnect_effects": {
-          "peripheral_count": 25,
-          "interrupt_latency_ns": 12,
-          "power_overhead_mw": 50,
-          "real_time_capability": "确定性实时响应"
-        }
-      },
-      {
-        "name": "Xilinx Zynq UltraScale+ MPSoC",
-        "type": "Controller",
-        "category": "FPGA系统级芯片",
-        "parameters": {
-          "architecture": "ARM Cortex-A53 + FPGA",
-          "cpu_cores": 4,
-          "frequency_mhz": 1500,
-          "fpga_logic_cells": 600000,
-          "dsp_slices": 2520,
-          "memory_controllers": 4,
-          "power_consumption_w": 12,
-          "operating_temp_range": "-40°C to +100°C",
-          "radiation_tolerance": "75 krad(Si)",
-          "mtbf_hours": 2000000,
-          "interfaces": ["PCIe", "USB", "Ethernet", "CAN"]
-        },
-        "interconnect_effects": {
-          "reconfigurable_io": 500,
-          "latency_ns": 5,
-          "power_overhead_w": 3,
-          "real_time_capability": "硬件加速实时处理"
-        }
-      },
-      {
-        "name": "Atmel AT697F LEON3FT",
-        "type": "Controller",
-        "category": "容错航空航天处理器",
-        "parameters": {
-          "architecture": "SPARC V8 LEON3FT",
-          "frequency_mhz": 100,
-          "cache_l1_kb": 16,
-          "cache_l2_kb": 256,
-          "fpu_support": true,
-          "power_consumption_w": 2,
-          "operating_temp_range": "-55°C to +125°C",
-          "radiation_tolerance": "300 krad(Si)",
-          "mtbf_hours": 12000000,
-          "interfaces": ["SpaceWire", "UART", "SPI", "I2C"],
-          "space_qualified": true
-        },
-        "interconnect_effects": {
-          "spacewire_links": 4,
-          "latency_ns": 50,
-          "power_overhead_w": 0.5,
-          "real_time_capability": "硬件容错实时处理"
-        }
-      },
-      {
-        "name": "Texas Instruments TMS570LS3137",
-        "type": "Controller",
-        "category": "安全关键微控制器",
-        "parameters": {
-          "architecture": "ARM Cortex-R4F",
-          "frequency_mhz": 180,
-          "flash_memory_mb": 3,
-          "ram_kb": 256,
-          "safety_features": ["ECC", "BIST", "LBIST"],
-          "power_consumption_mw": 400,
-          "operating_temp_range": "-40°C to +150°C",
-          "radiation_tolerance": "200 krad(Si)",
-          "mtbf_hours": 5000000,
-          "interfaces": ["CAN", "FlexRay", "SPI", "I2C", "UART"]
-        },
-        "interconnect_effects": {
-          "can_channels": 3,
-          "flexray_channels": 2,
-          "latency_ns": 25,
-          "power_overhead_mw": 80,
-          "real_time_capability": "安全关键实时响应"
-        }
-      },
-      {
-        "name": "NXP S32K358",
-        "type": "Controller",
-        "category": "汽车级安全微控制器",
-        "parameters": {
-          "architecture": "ARM Cortex-M7",
-          "frequency_mhz": 160,
-          "flash_memory_mb": 4,
-          "ram_kb": 704,
-          "hse_security": true,
-          "power_consumption_mw": 250,
-          "operating_temp_range": "-40°C to +125°C",
-          "radiation_tolerance": "150 krad(Si)",
-          "mtbf_hours": 4000000,
-          "interfaces": ["CAN-FD", "Ethernet", "SPI", "I2C", "UART"]
-        },
-        "interconnect_effects": {
-          "can_fd_channels": 6,
-          "ethernet_speed_mbps": 100,
-          "latency_ns": 15,
-          "power_overhead_mw": 60,
-          "real_time_capability": "确定性安全实时处理"
-        }
-      }
-    ],
-    "power_management": [
+    "Power_Management": [
       {
         "name": "TI TPS65987D",
-        "type": "Power Management",
-        "category": "USB-C PD控制器",
-        "parameters": {
-          "max_power_w": 100,
-          "voltage_range_v": "3.3-20",
-          "efficiency_percent": 95,
-          "switching_frequency_khz": 600,
-          "power_consumption_mw": 25,
-          "operating_temp_range": "-40°C to +85°C",
-          "radiation_tolerance": "50 krad(Si)",
-          "mtbf_hours": 2500000,
-          "protection_features": ["过压", "过流", "过温"]
+        "type": "Power_Management",
+        "original_category": "USB-C PD控制器",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "USB-C PD控制器 - Power Management",
+            "features": []
+          },
+          "performance": {
+            "max_power_w": 100,
+            "voltage_range_v": "3.3-20",
+            "efficiency_percent": 95,
+            "switching_frequency_khz": 600,
+            "power_consumption_mw": 25
+          },
+          "reliability": {
+            "operating_temp_range": "-40°C to +85°C",
+            "radiation_tolerance": "50 krad(Si)",
+            "mtbf_hours": 2500000,
+            "protection_features": [
+              "过压",
+              "过流",
+              "过温"
+            ]
+          }
         },
         "interconnect_effects": {
           "load_regulation_percent": 0.5,
@@ -988,20 +1680,33 @@
       },
       {
         "name": "Vicor DCM4623T",
-        "type": "Power Management",
-        "category": "航空航天DC-DC转换器",
-        "parameters": {
-          "max_power_w": 300,
-          "input_voltage_range_v": "9-50",
-          "output_voltage_v": 12,
-          "efficiency_percent": 96,
-          "switching_frequency_khz": 1000,
-          "power_consumption_w": 2,
-          "operating_temp_range": "-55°C to +125°C",
-          "radiation_tolerance": "300 krad(Si)",
-          "mtbf_hours": 8000000,
-          "protection_features": ["过压", "过流", "过温", "短路"],
-          "space_qualified": true
+        "type": "Power_Management",
+        "original_category": "航空航天DC-DC转换器",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "航空航天DC-DC转换器 - Power Management",
+            "features": []
+          },
+          "performance": {
+            "max_power_w": 300,
+            "input_voltage_range_v": "9-50",
+            "output_voltage_v": 12,
+            "efficiency_percent": 96,
+            "switching_frequency_khz": 1000,
+            "power_consumption_w": 2
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "300 krad(Si)",
+            "mtbf_hours": 8000000,
+            "protection_features": [
+              "过压",
+              "过流",
+              "过温",
+              "短路"
+            ],
+            "space_qualified": true
+          }
         },
         "interconnect_effects": {
           "load_regulation_percent": 0.1,
@@ -1012,20 +1717,33 @@
       },
       {
         "name": "Intersil ISL70002SRH",
-        "type": "Power Management",
-        "category": "抗辐射电源管理IC",
-        "parameters": {
-          "max_power_w": 50,
-          "input_voltage_range_v": "4.5-60",
-          "output_voltage_v": "0.6-5.5",
-          "efficiency_percent": 94,
-          "switching_frequency_khz": 500,
-          "power_consumption_mw": 15,
-          "operating_temp_range": "-55°C to +125°C",
-          "radiation_tolerance": "1000 krad(Si)",
-          "mtbf_hours": 15000000,
-          "protection_features": ["SEL免疫", "过压", "过流", "过温"],
-          "space_qualified": true
+        "type": "Power_Management",
+        "original_category": "抗辐射电源管理IC",
+        "requirements_mapping": {
+          "functionality": {
+            "description": "抗辐射电源管理IC - Power Management",
+            "features": []
+          },
+          "performance": {
+            "max_power_w": 50,
+            "input_voltage_range_v": "4.5-60",
+            "output_voltage_v": "0.6-5.5",
+            "efficiency_percent": 94,
+            "switching_frequency_khz": 500,
+            "power_consumption_mw": 15
+          },
+          "reliability": {
+            "operating_temp_range": "-55°C to +125°C",
+            "radiation_tolerance": "1000 krad(Si)",
+            "mtbf_hours": 15000000,
+            "protection_features": [
+              "SEL免疫",
+              "过压",
+              "过流",
+              "过温"
+            ],
+            "space_qualified": true
+          }
         },
         "interconnect_effects": {
           "load_regulation_percent": 0.2,
@@ -1034,6 +1752,7 @@
           "thermal_coupling": "低热耦合设计"
         }
       }
-    ]
+    ],
+    "Other_Components": []
   }
 }

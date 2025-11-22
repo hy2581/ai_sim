@@ -20,19 +20,54 @@ class DeepSeekConfig:
     model: str = "deepseek-chat"
     max_tokens: int = 4000
     temperature: float = 0.7
+    model_type: str = "qwen0.5b"  # 支持: qwen0.5b, deepseek-api, deepseek-r1
 
 
 class DeepSeekAPIClient:
-    """DeepSeek API客户端"""
+    """DeepSeek/Ollama API客户端 - 支持多种模型"""
     
-    def __init__(self, api_key: str = None):
+    def __init__(self, api_key: str = None, model_type: str = "qwen0.5b"):
+        """
+        初始化客户端
+        
+        Args:
+            api_key: DeepSeek API密钥 (仅 deepseek-api 需要)
+            model_type: 模型类型
+                - qwen0.5b: 本地 Ollama 小模型 (默认)
+                - deepseek-api: 外部 DeepSeek API
+                - deepseek-r1: 本地 Ollama DeepSeek-R1
+        """
+        self.model_type = model_type
         self.api_key = api_key or os.getenv('DEEPSEEK_API_KEY', 'dummy_key')
-        self.config = DeepSeekConfig(api_key=self.api_key)
+        self.config = DeepSeekConfig(
+            api_key=self.api_key,
+            model_type=model_type
+        )
         self.session = requests.Session()
-        self.session.headers.update({
-            'Authorization': f'Bearer {self.api_key}',
-            'Content-Type': 'application/json'
-        })
+        
+        # 根据模型类型设置不同的配置
+        if model_type == "deepseek-api":
+            # 外部 DeepSeek API
+            self.config.base_url = "https://api.deepseek.com/v1/chat/completions"
+            self.config.model = "deepseek-chat"
+            self.session.headers.update({
+                'Authorization': f'Bearer {self.api_key}',
+                'Content-Type': 'application/json'
+            })
+        else:
+            # 本地 Ollama (qwen0.5b 或 deepseek-r1)
+            self.config.base_url = "http://localhost:11434/api/chat"
+            if model_type == "qwen0.5b":
+                self.config.model = "qwen:0.5b"
+            elif model_type == "deepseek-r1":
+                self.config.model = "deepseek-r1"
+            self.session.headers.update({
+                'Content-Type': 'application/json'
+            })
+        
+        print(f"🤖 初始化AI客户端: {model_type}")
+        print(f"   模型: {self.config.model}")
+        print(f"   接口: {'外部API' if model_type == 'deepseek-api' else '本地Ollama'}")
     
     def parse_natural_language_requirements(self, user_input: str) -> Dict[str, Any]:
         """解析自然语言需求描述"""
@@ -267,9 +302,19 @@ class DeepSeekAPIClient:
             return self._get_default_report()
     
     def _call_api(self, system_prompt: str, user_message: str) -> str:
-        """调用DeepSeek API"""
+        """调用DeepSeek API或本地Ollama"""
+        
+        if self.model_type == "deepseek-api":
+            # 使用外部 DeepSeek API
+            return self._call_deepseek_api(system_prompt, user_message)
+        else:
+            # 使用本地 Ollama
+            return self._call_ollama_local(system_prompt, user_message)
+    
+    def _call_deepseek_api(self, system_prompt: str, user_message: str) -> str:
+        """调用外部DeepSeek API"""
         payload = {
-            "model": self.config.model,
+            "model": "deepseek-chat",
             "messages": [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_message}
@@ -279,7 +324,11 @@ class DeepSeekAPIClient:
         }
         
         try:
-            response = self.session.post(self.config.base_url, json=payload, timeout=60)
+            response = self.session.post(
+                "https://api.deepseek.com/v1/chat/completions",
+                json=payload,
+                timeout=60
+            )
             response.raise_for_status()
             
             result = response.json()
@@ -296,10 +345,84 @@ class DeepSeekAPIClient:
             return content
             
         except requests.exceptions.RequestException as e:
-            print(f"API请求失败: {e}")
+            print(f"DeepSeek API请求失败: {e}")
             raise
         except KeyError as e:
-            print(f"API响应格式错误: {e}")
+            print(f"DeepSeek API响应格式错误: {e}")
+            raise
+    
+    def _call_ollama_local(self, system_prompt: str, user_message: str) -> str:
+        """调用本地Ollama模型"""
+        # 组合 system prompt 和 user message
+        combined_message = f"{system_prompt}\n\n用户输入:\n{user_message}"
+        
+        payload = {
+            "model": self.config.model,
+            "messages": [
+                {"role": "user", "content": combined_message}
+            ],
+            "stream": False,
+            "options": {
+                "temperature": self.config.temperature,
+                "num_predict": self.config.max_tokens
+            }
+        }
+        
+        try:
+            response = self.session.post(
+                "http://localhost:11434/api/chat",
+                json=payload,
+                timeout=120
+            )
+            response.raise_for_status()
+            
+            result = response.json()
+            content = result.get('message', {}).get('content', '')
+            
+            # 清理可能的格式问题
+            content = content.strip()
+            if content.startswith('```json'):
+                content = content[7:]
+            if content.endswith('```'):
+                content = content[:-3]
+            content = content.strip()
+            
+            return content
+            
+        except requests.exceptions.ConnectionError:
+            error_msg = (
+                f"无法连接到Ollama服务 (模型: {self.config.model})\n"
+                "请确保:\n"
+                "1. Ollama服务正在运行: ollama serve\n"
+                "2. 模型已安装: ollama list\n"
+                f"3. 如果使用 deepseek-r1，需要足够的内存/显卡"
+            )
+            print(f"❌ {error_msg}")
+            raise Exception(error_msg)
+        except requests.exceptions.RequestException as e:
+            error_detail = str(e)
+            # 检查是否是内存不足错误
+            try:
+                error_json = response.json()
+                error_detail = error_json.get('error', error_detail)
+            except:
+                pass
+            
+            if "system memory" in error_detail.lower():
+                error_msg = (
+                    f"模型 {self.config.model} 需要的内存超过系统可用内存\n"
+                    "建议:\n"
+                    "- 使用 qwen0.5b 小模型 (需要 ~400MB)\n"
+                    "- 或在有更大内存/显卡的机器上使用 deepseek-r1\n"
+                    "- 或使用外部 deepseek-api"
+                )
+                print(f"❌ {error_msg}")
+                raise Exception(error_msg)
+            
+            print(f"Ollama请求失败: {e}")
+            raise
+        except KeyError as e:
+            print(f"Ollama响应格式错误: {e}")
             raise
     
     def _get_default_requirements(self) -> Dict[str, Any]:
