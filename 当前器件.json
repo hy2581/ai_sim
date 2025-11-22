@@ -18,7 +18,9 @@
         },
         {
           "name": "高光谱成像仪",
-          "parameters": [],
+          "parameters": [
+            "高光谱"
+          ],
           "function": "用于物质识别",
           "source": "自然语言提取"
         },
@@ -45,10 +47,166 @@
     }
   },
   "supplemented_devices": {
-    "cpu": [],
-    "gpu": [],
-    "memory": [],
-    "storage": [],
+    "cpu": [
+      {
+        "name": "LEON Variant 004",
+        "type": "rad-hard CPU",
+        "category": "cpu",
+        "parameters": {
+          "architecture": "SPARC V8",
+          "cores": 5,
+          "frequency_mhz": 154,
+          "radiation_tolerance_krad": 104,
+          "rtos_support": true,
+          "power_w": 4.2,
+          "temperature_range": "-55..125"
+        },
+        "interconnect_effects": [
+          "AMBA bus",
+          "shared memory",
+          "thermal management"
+        ],
+        "selection_reason": "该器件具有5个处理核心，能够很好地支持深空探测机械臂末端系统的多任务并发执行需求，包括实时控制、数据处理和系统管理。SPARC V8架构在航空航天领域有良好的应用基础，154MHz主频和104krad的抗辐射等级满足深空环境要求。AMBA总线架构有利于三维异构集成中的高密度互连需求。",
+        "source": "器件库补充"
+      },
+      {
+        "name": "LEON Variant 003",
+        "type": "rad-hard CPU",
+        "category": "cpu",
+        "parameters": {
+          "architecture": "PowerPC",
+          "cores": 4,
+          "frequency_mhz": 153,
+          "radiation_tolerance_krad": 103,
+          "rtos_support": true,
+          "power_w": 3.9,
+          "temperature_range": "-55..125"
+        },
+        "interconnect_effects": [
+          "PCIe",
+          "shared memory",
+          "thermal management"
+        ],
+        "selection_reason": "作为备选方案，该器件提供4个PowerPC核心，153MHz主频和103krad抗辐射性能，PCIe接口在现代SoC集成中具有优势，能够提供低延迟总线连接各功能单元。功耗3.9W在可接受范围内，适合机械臂末端系统的功率预算。",
+        "source": "器件库补充"
+      }
+    ],
+    "gpu": [
+      {
+        "name": "DSP/GPU Core 007",
+        "type": "compute accelerator",
+        "category": "gpu",
+        "parameters": {
+          "fp32_gflops": 15,
+          "memory_bandwidth_gbps": 12,
+          "rad_hard": true,
+          "shared_memory": true,
+          "temperature_range": "-55..125"
+        },
+        "interconnect_effects": [
+          "shared memory",
+          "heat dissipation",
+          "sensor high-throughput"
+        ],
+        "selection_reason": "针对深空探测机械臂末端系统的光谱数据处理需求，该器件在计算性能和功耗效率之间达到最佳平衡。15 GFLOPS的浮点性能足以处理高光谱图像和拉曼光谱数据的并行计算，12 Gbps内存带宽满足传感器数据的高速传输需求，同时抗辐射特性和宽温范围(-55°C~125°C)完全符合深空环境要求",
+        "source": "器件库补充"
+      },
+      {
+        "name": "DSP/GPU Core 005",
+        "type": "compute accelerator",
+        "category": "gpu",
+        "parameters": {
+          "fp32_gflops": 13,
+          "memory_bandwidth_gbps": 10,
+          "rad_hard": true,
+          "shared_memory": true,
+          "temperature_range": "-55..125"
+        },
+        "interconnect_effects": [
+          "shared memory",
+          "heat dissipation",
+          "sensor high-throughput"
+        ],
+        "selection_reason": "作为备选方案，该器件提供13 GFLOPS计算性能和10 Gbps内存带宽，在保证光谱数据处理能力的同时具有更低的功耗，适合对功耗有更严格限制的应用场景。共享内存架构支持与CPU和传感器的紧密集成，满足实时分析需求",
+        "source": "器件库补充"
+      }
+    ],
+    "memory": [
+      {
+        "name": "Rad-Hard SRAM 003",
+        "type": "memory",
+        "category": "memory",
+        "parameters": {
+          "capacity_gb": 2.5,
+          "edac": true,
+          "seu_protection": true,
+          "bandwidth_gbps": 5.5,
+          "temperature_range": "-55..125"
+        },
+        "interconnect_effects": [
+          "close to CPU",
+          "3D stacked",
+          "signal integrity"
+        ],
+        "selection_reason": "选择该器件作为主运行内存，因为其2.5GB容量和5.5Gbps带宽能够满足深空探测机械臂末端系统的多任务并发执行需求，包括实时控制、数据处理和光谱分析等任务。EDAC和SEU保护确保在深空辐射环境下的数据可靠性，-55到125°C工作温度范围适应极端环境",
+        "source": "器件库补充"
+      },
+      {
+        "name": "Rad-Hard MRAM 003",
+        "type": "memory",
+        "category": "memory",
+        "parameters": {
+          "capacity_gb": 2.0,
+          "non_volatile": true,
+          "edac": true,
+          "temperature_range": "-55..125"
+        },
+        "interconnect_effects": [
+          "non-volatile storage",
+          "low-latency",
+          "EMC considerations"
+        ],
+        "selection_reason": "选择该器件作为非易失性存储，用于存储光谱数据、分析结果和系统日志。2.0GB容量足够存储拉曼光谱和高光谱图像数据，非易失特性确保断电后数据不丢失，EDAC保护提供辐射环境下的数据完整性保障",
+        "source": "器件库补充"
+      }
+    ],
+    "storage": [
+      {
+        "name": "Rad-Hard NAND Flash 007",
+        "type": "storage",
+        "category": "storage",
+        "parameters": {
+          "capacity_gb": 128,
+          "endurance_cycles": 120000,
+          "data_retention_years": 12,
+          "temperature_range": "-55..125"
+        },
+        "interconnect_effects": [
+          "reliable interface",
+          "space constraints",
+          "power integrity"
+        ],
+        "selection_reason": "选择128GB容量的NAND Flash作为主存储器件，能够满足深空探测任务中光谱数据、分析结果和系统日志的大容量存储需求。该器件具有120,000次擦写耐久性和12年数据保持能力，适合长期深空任务的数据存储要求。",
+        "source": "器件库补充"
+      },
+      {
+        "name": "Rad-Hard NOR Flash 007",
+        "type": "storage",
+        "category": "storage",
+        "parameters": {
+          "capacity_gb": 36,
+          "read_latency_ns": 80,
+          "temperature_range": "-55..125"
+        },
+        "interconnect_effects": [
+          "code storage",
+          "signal integrity",
+          "EMC considerations"
+        ],
+        "selection_reason": "选择36GB容量的NOR Flash作为代码存储和关键数据备份，其80ns的读取延迟适合快速启动和执行关键程序。NOR Flash的可靠性高，适合存储系统固件和关键分析算法。",
+        "source": "器件库补充"
+      }
+    ],
     "sensors": [
       {
         "name": "微型激光拉曼探头",
@@ -60,7 +218,9 @@
       },
       {
         "name": "高光谱成像仪",
-        "parameters": [],
+        "parameters": [
+          "高光谱"
+        ],
         "function": "用于物质识别",
         "source": "自然语言提取"
       },
@@ -71,9 +231,61 @@
         ],
         "function": "实时解析样本物质成分",
         "source": "自然语言提取"
+      },
+      {
+        "name": "Micro Laser Raman Probe 004",
+        "type": "spectrometer",
+        "category": "sensors",
+        "parameters": {
+          "resolution_cm_minus1": 0.6,
+          "miniaturized": true,
+          "power_w": 2.8
+        },
+        "interconnect_effects": [
+          "ADC precision",
+          "EMC shielding",
+          "low-noise cabling"
+        ],
+        "selection_reason": "选择该器件因为其具有最高的光谱分辨率（0.6 cm⁻¹），在深空探测的'原位分析'任务中能够提供最精确的物质成分分析能力。微型化设计适合机械臂末端集成，虽然功耗略高（2.8W），但在采样分析精度要求下是合理权衡",
+        "source": "器件库补充"
+      },
+      {
+        "name": "Hyperspectral Imager 004",
+        "type": "imager",
+        "category": "sensors",
+        "parameters": {
+          "bands_count": 154,
+          "spatial_resolution_um": 6.0,
+          "power_w": 6.0
+        },
+        "interconnect_effects": [
+          "high-throughput data",
+          "thermal management",
+          "synchronization"
+        ],
+        "selection_reason": "选择该高光谱成像仪因其在空间分辨率（6.0μm）和光谱波段数（154个）之间达到良好平衡，能够为岩石破碎和样本采集提供高精度的空间和光谱信息。虽然功耗较高（6.0W），但对于实时物质成分分析任务至关重要",
+        "source": "器件库补充"
       }
     ],
-    "communication": [],
+    "communication": [
+      {
+        "name": "SpaceFibre Controller 008",
+        "type": "communication",
+        "category": "communication",
+        "parameters": {
+          "data_rate_gbps": 6.5,
+          "redundancy": true,
+          "emc": true
+        },
+        "interconnect_effects": [
+          "high-bandwidth",
+          "signal integrity",
+          "power integrity"
+        ],
+        "selection_reason": "该器件提供6.5 Gbps的高数据传输速率，完全满足深空探测机械臂末端系统传输高光谱图像、拉曼光谱数据和实时分析结果的需求。SpaceFibre是SpaceWire的下一代标准，具有更高的带宽和更好的服务质量保证，支持冗余设计和EMC特性，适合深空环境的抗辐射和可靠性要求。",
+        "source": "器件库补充"
+      }
+    ],
     "controllers": [
       {
         "name": "抗辐射片上系统（SoC）",
@@ -82,23 +294,269 @@
         ],
         "function": "负责控制与数据处理",
         "source": "自然语言提取"
+      },
+      {
+        "name": "Piezoelectric Drill Controller 005",
+        "type": "controller",
+        "category": "controllers",
+        "parameters": {
+          "precision_nm": 100,
+          "response_ms": 1,
+          "drive_voltage_v": 100
+        },
+        "interconnect_effects": [
+          "real-time control",
+          "power integrity",
+          "EMC"
+        ],
+        "selection_reason": "该器件在压电钻头控制方面具有最佳性能，1ms的响应时间最快，100nm的控制精度最高，100V的驱动电压适中，完全满足岩石破碎任务对高精度快速响应的要求",
+        "source": "器件库补充"
+      },
+      {
+        "name": "MEMS Pump/Valve Driver 003",
+        "type": "controller",
+        "category": "controllers",
+        "parameters": {
+          "response_ms": 1,
+          "closed_loop": 1,
+          "drive_voltage_v": 12
+        },
+        "interconnect_effects": [
+          "real-time control",
+          "power integrity",
+          "EMC"
+        ],
+        "selection_reason": "该器件具有1ms的最快响应时间和1级的闭环控制能力，12V的低驱动电压有利于功耗控制，适合用于样本采集过程中的气体泵阀精确控制",
+        "source": "器件库补充"
+      },
+      {
+        "name": "Robotic Arm Motion Controller 002",
+        "type": "controller",
+        "category": "controllers",
+        "parameters": {
+          "closed_loop": 1,
+          "redundancy": 1,
+          "response_ms": 1
+        },
+        "interconnect_effects": [
+          "real-time control",
+          "power integrity",
+          "EMC"
+        ],
+        "selection_reason": "该器件在机械臂运动控制方面表现最优，1ms的响应时间最快，1级的闭环控制和冗余等级确保机械臂末端定位的精确性和可靠性",
+        "source": "器件库补充"
+      },
+      {
+        "name": "Brush Sweeper Controller 001",
+        "type": "controller",
+        "category": "controllers",
+        "parameters": {
+          "precision_nm": 501,
+          "response_ms": 3,
+          "drive_voltage_v": 25
+        },
+        "interconnect_effects": [
+          "real-time control",
+          "power integrity",
+          "EMC"
+        ],
+        "selection_reason": "该器件在浮尘清除任务中具有较好的平衡性能，3ms的响应时间满足实时控制需求，25V的驱动电压适中，501nm的控制精度适合刷扫动作",
+        "source": "器件库补充"
       }
     ]
   },
   "supplement_reasons": {
-    "cpu": [],
-    "gpu": [],
-    "memory": [],
-    "storage": [],
-    "sensors": [],
-    "communication": [],
-    "controllers": []
+    "cpu": [
+      "该器件具有5个处理核心，能够很好地支持深空探测机械臂末端系统的多任务并发执行需求，包括实时控制、数据处理和系统管理。SPARC V8架构在航空航天领域有良好的应用基础，154MHz主频和104krad的抗辐射等级满足深空环境要求。AMBA总线架构有利于三维异构集成中的高密度互连需求。",
+      "作为备选方案，该器件提供4个PowerPC核心，153MHz主频和103krad抗辐射性能，PCIe接口在现代SoC集成中具有优势，能够提供低延迟总线连接各功能单元。功耗3.9W在可接受范围内，适合机械臂末端系统的功率预算。"
+    ],
+    "gpu": [
+      "针对深空探测机械臂末端系统的光谱数据处理需求，该器件在计算性能和功耗效率之间达到最佳平衡。15 GFLOPS的浮点性能足以处理高光谱图像和拉曼光谱数据的并行计算，12 Gbps内存带宽满足传感器数据的高速传输需求，同时抗辐射特性和宽温范围(-55°C~125°C)完全符合深空环境要求",
+      "作为备选方案，该器件提供13 GFLOPS计算性能和10 Gbps内存带宽，在保证光谱数据处理能力的同时具有更低的功耗，适合对功耗有更严格限制的应用场景。共享内存架构支持与CPU和传感器的紧密集成，满足实时分析需求"
+    ],
+    "memory": [
+      "选择该器件作为主运行内存，因为其2.5GB容量和5.5Gbps带宽能够满足深空探测机械臂末端系统的多任务并发执行需求，包括实时控制、数据处理和光谱分析等任务。EDAC和SEU保护确保在深空辐射环境下的数据可靠性，-55到125°C工作温度范围适应极端环境",
+      "选择该器件作为非易失性存储，用于存储光谱数据、分析结果和系统日志。2.0GB容量足够存储拉曼光谱和高光谱图像数据，非易失特性确保断电后数据不丢失，EDAC保护提供辐射环境下的数据完整性保障"
+    ],
+    "storage": [
+      "选择128GB容量的NAND Flash作为主存储器件，能够满足深空探测任务中光谱数据、分析结果和系统日志的大容量存储需求。该器件具有120,000次擦写耐久性和12年数据保持能力，适合长期深空任务的数据存储要求。",
+      "选择36GB容量的NOR Flash作为代码存储和关键数据备份，其80ns的读取延迟适合快速启动和执行关键程序。NOR Flash的可靠性高，适合存储系统固件和关键分析算法。"
+    ],
+    "sensors": [
+      "选择该器件因为其具有最高的光谱分辨率（0.6 cm⁻¹），在深空探测的'原位分析'任务中能够提供最精确的物质成分分析能力。微型化设计适合机械臂末端集成，虽然功耗略高（2.8W），但在采样分析精度要求下是合理权衡",
+      "选择该高光谱成像仪因其在空间分辨率（6.0μm）和光谱波段数（154个）之间达到良好平衡，能够为岩石破碎和样本采集提供高精度的空间和光谱信息。虽然功耗较高（6.0W），但对于实时物质成分分析任务至关重要"
+    ],
+    "communication": [
+      "该器件提供6.5 Gbps的高数据传输速率，完全满足深空探测机械臂末端系统传输高光谱图像、拉曼光谱数据和实时分析结果的需求。SpaceFibre是SpaceWire的下一代标准，具有更高的带宽和更好的服务质量保证，支持冗余设计和EMC特性，适合深空环境的抗辐射和可靠性要求。"
+    ],
+    "controllers": [
+      "该器件在压电钻头控制方面具有最佳性能，1ms的响应时间最快，100nm的控制精度最高，100V的驱动电压适中，完全满足岩石破碎任务对高精度快速响应的要求",
+      "该器件具有1ms的最快响应时间和1级的闭环控制能力，12V的低驱动电压有利于功耗控制，适合用于样本采集过程中的气体泵阀精确控制",
+      "该器件在机械臂运动控制方面表现最优，1ms的响应时间最快，1级的闭环控制和冗余等级确保机械臂末端定位的精确性和可靠性",
+      "该器件在浮尘清除任务中具有较好的平衡性能，3ms的响应时间满足实时控制需求，25V的驱动电压适中，501nm的控制精度适合刷扫动作"
+    ]
   },
   "devices": {
-    "cpu": [],
-    "gpu": [],
-    "memory": [],
-    "storage": [],
+    "cpu": [
+      {
+        "name": "LEON Variant 004",
+        "type": "rad-hard CPU",
+        "category": "cpu",
+        "parameters": {
+          "architecture": "SPARC V8",
+          "cores": 5,
+          "frequency_mhz": 154,
+          "radiation_tolerance_krad": 104,
+          "rtos_support": true,
+          "power_w": 4.2,
+          "temperature_range": "-55..125"
+        },
+        "interconnect_effects": [
+          "AMBA bus",
+          "shared memory",
+          "thermal management"
+        ],
+        "selection_reason": "该器件具有5个处理核心，能够很好地支持深空探测机械臂末端系统的多任务并发执行需求，包括实时控制、数据处理和系统管理。SPARC V8架构在航空航天领域有良好的应用基础，154MHz主频和104krad的抗辐射等级满足深空环境要求。AMBA总线架构有利于三维异构集成中的高密度互连需求。",
+        "source": "器件库补充"
+      },
+      {
+        "name": "LEON Variant 003",
+        "type": "rad-hard CPU",
+        "category": "cpu",
+        "parameters": {
+          "architecture": "PowerPC",
+          "cores": 4,
+          "frequency_mhz": 153,
+          "radiation_tolerance_krad": 103,
+          "rtos_support": true,
+          "power_w": 3.9,
+          "temperature_range": "-55..125"
+        },
+        "interconnect_effects": [
+          "PCIe",
+          "shared memory",
+          "thermal management"
+        ],
+        "selection_reason": "作为备选方案，该器件提供4个PowerPC核心，153MHz主频和103krad抗辐射性能，PCIe接口在现代SoC集成中具有优势，能够提供低延迟总线连接各功能单元。功耗3.9W在可接受范围内，适合机械臂末端系统的功率预算。",
+        "source": "器件库补充"
+      }
+    ],
+    "gpu": [
+      {
+        "name": "DSP/GPU Core 007",
+        "type": "compute accelerator",
+        "category": "gpu",
+        "parameters": {
+          "fp32_gflops": 15,
+          "memory_bandwidth_gbps": 12,
+          "rad_hard": true,
+          "shared_memory": true,
+          "temperature_range": "-55..125"
+        },
+        "interconnect_effects": [
+          "shared memory",
+          "heat dissipation",
+          "sensor high-throughput"
+        ],
+        "selection_reason": "针对深空探测机械臂末端系统的光谱数据处理需求，该器件在计算性能和功耗效率之间达到最佳平衡。15 GFLOPS的浮点性能足以处理高光谱图像和拉曼光谱数据的并行计算，12 Gbps内存带宽满足传感器数据的高速传输需求，同时抗辐射特性和宽温范围(-55°C~125°C)完全符合深空环境要求",
+        "source": "器件库补充"
+      },
+      {
+        "name": "DSP/GPU Core 005",
+        "type": "compute accelerator",
+        "category": "gpu",
+        "parameters": {
+          "fp32_gflops": 13,
+          "memory_bandwidth_gbps": 10,
+          "rad_hard": true,
+          "shared_memory": true,
+          "temperature_range": "-55..125"
+        },
+        "interconnect_effects": [
+          "shared memory",
+          "heat dissipation",
+          "sensor high-throughput"
+        ],
+        "selection_reason": "作为备选方案，该器件提供13 GFLOPS计算性能和10 Gbps内存带宽，在保证光谱数据处理能力的同时具有更低的功耗，适合对功耗有更严格限制的应用场景。共享内存架构支持与CPU和传感器的紧密集成，满足实时分析需求",
+        "source": "器件库补充"
+      }
+    ],
+    "memory": [
+      {
+        "name": "Rad-Hard SRAM 003",
+        "type": "memory",
+        "category": "memory",
+        "parameters": {
+          "capacity_gb": 2.5,
+          "edac": true,
+          "seu_protection": true,
+          "bandwidth_gbps": 5.5,
+          "temperature_range": "-55..125"
+        },
+        "interconnect_effects": [
+          "close to CPU",
+          "3D stacked",
+          "signal integrity"
+        ],
+        "selection_reason": "选择该器件作为主运行内存，因为其2.5GB容量和5.5Gbps带宽能够满足深空探测机械臂末端系统的多任务并发执行需求，包括实时控制、数据处理和光谱分析等任务。EDAC和SEU保护确保在深空辐射环境下的数据可靠性，-55到125°C工作温度范围适应极端环境",
+        "source": "器件库补充"
+      },
+      {
+        "name": "Rad-Hard MRAM 003",
+        "type": "memory",
+        "category": "memory",
+        "parameters": {
+          "capacity_gb": 2.0,
+          "non_volatile": true,
+          "edac": true,
+          "temperature_range": "-55..125"
+        },
+        "interconnect_effects": [
+          "non-volatile storage",
+          "low-latency",
+          "EMC considerations"
+        ],
+        "selection_reason": "选择该器件作为非易失性存储，用于存储光谱数据、分析结果和系统日志。2.0GB容量足够存储拉曼光谱和高光谱图像数据，非易失特性确保断电后数据不丢失，EDAC保护提供辐射环境下的数据完整性保障",
+        "source": "器件库补充"
+      }
+    ],
+    "storage": [
+      {
+        "name": "Rad-Hard NAND Flash 007",
+        "type": "storage",
+        "category": "storage",
+        "parameters": {
+          "capacity_gb": 128,
+          "endurance_cycles": 120000,
+          "data_retention_years": 12,
+          "temperature_range": "-55..125"
+        },
+        "interconnect_effects": [
+          "reliable interface",
+          "space constraints",
+          "power integrity"
+        ],
+        "selection_reason": "选择128GB容量的NAND Flash作为主存储器件，能够满足深空探测任务中光谱数据、分析结果和系统日志的大容量存储需求。该器件具有120,000次擦写耐久性和12年数据保持能力，适合长期深空任务的数据存储要求。",
+        "source": "器件库补充"
+      },
+      {
+        "name": "Rad-Hard NOR Flash 007",
+        "type": "storage",
+        "category": "storage",
+        "parameters": {
+          "capacity_gb": 36,
+          "read_latency_ns": 80,
+          "temperature_range": "-55..125"
+        },
+        "interconnect_effects": [
+          "code storage",
+          "signal integrity",
+          "EMC considerations"
+        ],
+        "selection_reason": "选择36GB容量的NOR Flash作为代码存储和关键数据备份，其80ns的读取延迟适合快速启动和执行关键程序。NOR Flash的可靠性高，适合存储系统固件和关键分析算法。",
+        "source": "器件库补充"
+      }
+    ],
     "sensors": [
       {
         "name": "微型激光拉曼探头",
@@ -110,7 +568,9 @@
       },
       {
         "name": "高光谱成像仪",
-        "parameters": [],
+        "parameters": [
+          "高光谱"
+        ],
         "function": "用于物质识别",
         "source": "自然语言提取"
       },
@@ -121,9 +581,61 @@
         ],
         "function": "实时解析样本物质成分",
         "source": "自然语言提取"
+      },
+      {
+        "name": "Micro Laser Raman Probe 004",
+        "type": "spectrometer",
+        "category": "sensors",
+        "parameters": {
+          "resolution_cm_minus1": 0.6,
+          "miniaturized": true,
+          "power_w": 2.8
+        },
+        "interconnect_effects": [
+          "ADC precision",
+          "EMC shielding",
+          "low-noise cabling"
+        ],
+        "selection_reason": "选择该器件因为其具有最高的光谱分辨率（0.6 cm⁻¹），在深空探测的'原位分析'任务中能够提供最精确的物质成分分析能力。微型化设计适合机械臂末端集成，虽然功耗略高（2.8W），但在采样分析精度要求下是合理权衡",
+        "source": "器件库补充"
+      },
+      {
+        "name": "Hyperspectral Imager 004",
+        "type": "imager",
+        "category": "sensors",
+        "parameters": {
+          "bands_count": 154,
+          "spatial_resolution_um": 6.0,
+          "power_w": 6.0
+        },
+        "interconnect_effects": [
+          "high-throughput data",
+          "thermal management",
+          "synchronization"
+        ],
+        "selection_reason": "选择该高光谱成像仪因其在空间分辨率（6.0μm）和光谱波段数（154个）之间达到良好平衡，能够为岩石破碎和样本采集提供高精度的空间和光谱信息。虽然功耗较高（6.0W），但对于实时物质成分分析任务至关重要",
+        "source": "器件库补充"
       }
     ],
-    "communication": [],
+    "communication": [
+      {
+        "name": "SpaceFibre Controller 008",
+        "type": "communication",
+        "category": "communication",
+        "parameters": {
+          "data_rate_gbps": 6.5,
+          "redundancy": true,
+          "emc": true
+        },
+        "interconnect_effects": [
+          "high-bandwidth",
+          "signal integrity",
+          "power integrity"
+        ],
+        "selection_reason": "该器件提供6.5 Gbps的高数据传输速率，完全满足深空探测机械臂末端系统传输高光谱图像、拉曼光谱数据和实时分析结果的需求。SpaceFibre是SpaceWire的下一代标准，具有更高的带宽和更好的服务质量保证，支持冗余设计和EMC特性，适合深空环境的抗辐射和可靠性要求。",
+        "source": "器件库补充"
+      }
+    ],
     "controllers": [
       {
         "name": "抗辐射片上系统（SoC）",
@@ -132,6 +644,74 @@
         ],
         "function": "负责控制与数据处理",
         "source": "自然语言提取"
+      },
+      {
+        "name": "Piezoelectric Drill Controller 005",
+        "type": "controller",
+        "category": "controllers",
+        "parameters": {
+          "precision_nm": 100,
+          "response_ms": 1,
+          "drive_voltage_v": 100
+        },
+        "interconnect_effects": [
+          "real-time control",
+          "power integrity",
+          "EMC"
+        ],
+        "selection_reason": "该器件在压电钻头控制方面具有最佳性能，1ms的响应时间最快，100nm的控制精度最高，100V的驱动电压适中，完全满足岩石破碎任务对高精度快速响应的要求",
+        "source": "器件库补充"
+      },
+      {
+        "name": "MEMS Pump/Valve Driver 003",
+        "type": "controller",
+        "category": "controllers",
+        "parameters": {
+          "response_ms": 1,
+          "closed_loop": 1,
+          "drive_voltage_v": 12
+        },
+        "interconnect_effects": [
+          "real-time control",
+          "power integrity",
+          "EMC"
+        ],
+        "selection_reason": "该器件具有1ms的最快响应时间和1级的闭环控制能力，12V的低驱动电压有利于功耗控制，适合用于样本采集过程中的气体泵阀精确控制",
+        "source": "器件库补充"
+      },
+      {
+        "name": "Robotic Arm Motion Controller 002",
+        "type": "controller",
+        "category": "controllers",
+        "parameters": {
+          "closed_loop": 1,
+          "redundancy": 1,
+          "response_ms": 1
+        },
+        "interconnect_effects": [
+          "real-time control",
+          "power integrity",
+          "EMC"
+        ],
+        "selection_reason": "该器件在机械臂运动控制方面表现最优，1ms的响应时间最快，1级的闭环控制和冗余等级确保机械臂末端定位的精确性和可靠性",
+        "source": "器件库补充"
+      },
+      {
+        "name": "Brush Sweeper Controller 001",
+        "type": "controller",
+        "category": "controllers",
+        "parameters": {
+          "precision_nm": 501,
+          "response_ms": 3,
+          "drive_voltage_v": 25
+        },
+        "interconnect_effects": [
+          "real-time control",
+          "power integrity",
+          "EMC"
+        ],
+        "selection_reason": "该器件在浮尘清除任务中具有较好的平衡性能，3ms的响应时间满足实时控制需求，25V的驱动电压适中，501nm的控制精度适合刷扫动作",
+        "source": "器件库补充"
       }
     ]
   }

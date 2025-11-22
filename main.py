@@ -67,8 +67,18 @@ def main():
                     "python3",
                     str(project_root / "scripts" / "build_visualization.py")
                 ], check=True)
+                optimal_cmd = [
+                    "python3",
+                    str(project_root / "scripts" / "generate_optimal_report.py")
+                ]
+                if args.model:
+                    optimal_cmd.extend(["--model", args.model])
+                if args.api_key:
+                    optimal_cmd.extend(["--api-key", args.api_key])
+                subprocess.run(optimal_cmd, check=True)
                 print("   - 器件排布图.svg")
                 print("   - 传统模式分析可视化.html")
+                print("   - 最优解报告.md")
             except Exception as e:
                 print(f"\n⚠️ 可视化生成失败: {e}")
         else:

@@ -34,6 +34,25 @@ class TraditionalModeProcessor:
         self.project_root = project_root
         self.device_library = self._load_device_library()
         
+    def _extract_json(self, text: str) -> Optional[Dict[str, Any]]:
+        try:
+            cleaned = text.strip()
+            if cleaned.startswith('```json'):
+                cleaned = cleaned[7:]
+            if cleaned.endswith('```'):
+                cleaned = cleaned[:-3]
+            cleaned = cleaned.strip()
+            try:
+                return json.loads(cleaned)
+            except json.JSONDecodeError:
+                import re
+                m = re.search(r'\{[\s\S]*\}', cleaned, re.DOTALL)
+                if m:
+                    return json.loads(m.group())
+        except Exception:
+            pass
+        return None
+
     def _load_device_library(self) -> Dict[str, Any]:
         """加载器件库"""
         library_path = self.project_root / "device_library.json"
@@ -163,13 +182,10 @@ class TraditionalModeProcessor:
         
         try:
             response = self.api_client._call_api(system_prompt, natural_language_input)
-            # 尝试解析JSON
-            import re
-            json_match = re.search(r'\{.*\}', response, re.DOTALL)
-            if json_match:
-                return json.loads(json_match.group())
-            else:
-                return self._get_default_task_requirements(natural_language_input)
+            parsed = self._extract_json(response)
+            if parsed is not None:
+                return parsed
+            return self._get_default_task_requirements(natural_language_input)
         except Exception as e:
             print(f"⚠️ API调用失败，使用默认任务需求: {e}")
             return self._get_default_task_requirements(natural_language_input)
@@ -226,12 +242,10 @@ class TraditionalModeProcessor:
         
         try:
             response = self.api_client._call_api(system_prompt, natural_language_input)
-            import re
-            json_match = re.search(r'\{.*\}', response, re.DOTALL)
-            if json_match:
-                return json.loads(json_match.group())
-            else:
-                return self._get_default_extracted_devices()
+            parsed = self._extract_json(response)
+            if parsed is not None:
+                return parsed
+            return self._get_default_extracted_devices()
         except Exception as e:
             print(f"⚠️ 器件提取失败，使用默认配置: {e}")
             return self._get_default_extracted_devices()
@@ -381,48 +395,35 @@ class TraditionalModeProcessor:
 """
         
         try:
-            # 调用API
             response = self.api_client._call_api(system_prompt, user_input)
-            
-            # 尝试解析JSON响应
-            import re
-            json_match = re.search(r'\{.*\}', response, re.DOTALL)
-            if json_match:
-                api_result = json.loads(json_match.group())
-                
-                # 提取选中的器件
-                for item in api_result.get("selected_devices", []):
-                    device_name = item.get("name", "")
-                    # 从库中查找对应的完整器件信息
+            api_result = self._extract_json(response)
+            if not api_result:
+                raise Exception("API返回格式不符合")
+            for item in api_result.get("selected_devices", []):
+                device_name = item.get("name", "")
+                for lib_device in library_devices:
+                    if lib_device.get("name", "") == device_name:
+                        selected.append(self._format_selected_device(
+                            lib_device,
+                            item.get("reason", "")
+                        ))
+                        reasons.append(item.get("reason", ""))
+                        break
+                else:
                     for lib_device in library_devices:
-                        if lib_device.get("name", "") == device_name:
+                        if device_name.lower() in lib_device.get("name", "").lower():
                             selected.append(self._format_selected_device(
-                                lib_device, 
+                                lib_device,
                                 item.get("reason", "")
                             ))
                             reasons.append(item.get("reason", ""))
                             break
-                    else:
-                        # 如果API返回的器件在库中未找到，尝试模糊匹配
-                        for lib_device in library_devices:
-                            if device_name.lower() in lib_device.get("name", "").lower():
-                                selected.append(self._format_selected_device(
-                                    lib_device,
-                                    item.get("reason", "")
-                                ))
-                                reasons.append(item.get("reason", ""))
-                                break
-                
-                if not selected and library_devices:
-                    # 如果API返回的器件在库中未找到，使用第一个
-                    selected.append(self._format_selected_device(
-                        library_devices[0],
-                        api_result.get("selection_summary", "根据任务需求选择")
-                    ))
-                    reasons.append(api_result.get("selection_summary", ""))
-            else:
-                raise Exception("API返回格式不符合")
-                
+            if not selected and library_devices:
+                selected.append(self._format_selected_device(
+                    library_devices[0],
+                    api_result.get("selection_summary", "根据任务需求选择")
+                ))
+                reasons.append(api_result.get("selection_summary", ""))
         except Exception as e:
             print(f"API解析失败: {e}，使用备选逻辑")
             raise
@@ -520,12 +521,10 @@ class TraditionalModeProcessor:
         
         try:
             response = self.api_client._call_api(system_prompt, json.dumps(comparison_data, ensure_ascii=False, indent=2))
-            import re
-            json_match = re.search(r'\{.*\}', response, re.DOTALL)
-            if json_match:
-                return json.loads(json_match.group())
-            else:
-                return self._get_default_comparison_results()
+            parsed = self._extract_json(response)
+            if parsed is not None:
+                return parsed
+            return self._get_default_comparison_results()
         except Exception as e:
             print(f"⚠️ 比较分析失败，使用默认结果: {e}")
             return self._get_default_comparison_results()
@@ -651,7 +650,7 @@ class TraditionalModeProcessor:
         supplement_reasons = current_devices.get('supplement_reasons', {})
         
         # 统计器件数量
-        extracted_count = sum(len(devices) for devices in extracted_devices.get('extracted_devices', {}).values())
+        extracted_count = sum(len(devices) for devices in extracted_devices.get('extracted_devices', {}).values()) if isinstance(extracted_devices, dict) else 0
         supplemented_count = sum(len(devices) for devices in supplemented_devices.values())
         
         report = f"""

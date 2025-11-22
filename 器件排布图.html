@@ -1,0 +1,38 @@
+
+<!doctype html>
+<html lang=zh>
+<meta charset=utf-8>
+<title>器件排布二维图</title>
+<script src="https://cdn.jsdelivr.net/npm/cytoscape@3.28.0/dist/cytoscape.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dagre@0.8.5/dist/dagre.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.5.0/cytoscape-dagre.js"></script>
+<style>
+body{font-family:sans-serif;margin:0;background:#f5f7fa}
+#cy{width:100vw;height:90vh;display:block}
+.panel{padding:10px}
+</style>
+<div class=panel>
+  <h1>器件排布与互联</h1>
+  <p>基于当前器件与器件库生成的二维拓扑，节点按类别着色，边表示互联路径。</p>
+</div>
+<div id="cy"></div>
+<script>
+const elements = [{"data": {"id": "sensors_0", "label": "微型激光拉曼探头", "category": "sensors"}}, {"data": {"id": "sensors_1", "label": "高光谱成像仪", "category": "sensors"}}, {"data": {"id": "sensors_2", "label": "微型光谱仪", "category": "sensors"}}, {"data": {"id": "sensors_3", "label": "Micro Laser Raman Probe 004", "category": "sensors"}}, {"data": {"id": "controllers_4", "label": "抗辐射片上系统（SoC）", "category": "controllers"}}, {"data": {"id": "controllers_5", "label": "Piezoelectric Drill Controller 005", "category": "controllers"}}, {"data": {"id": "controllers_6", "label": "MEMS Pump/Valve Driver 003", "category": "controllers"}}, {"data": {"id": "cpu_7", "label": "LEON Variant 047", "category": "cpu"}}, {"data": {"id": "cpu_8", "label": "LEON Variant 119", "category": "cpu"}}, {"data": {"id": "gpu_9", "label": "DSP/GPU Core 107", "category": "gpu"}}, {"data": {"id": "gpu_10", "label": "DSP/GPU Core 119", "category": "gpu"}}, {"data": {"id": "memory_11", "label": "Rad-Hard SRAM 071", "category": "memory"}}, {"data": {"id": "memory_12", "label": "Rad-Hard MRAM 071", "category": "memory"}}, {"data": {"id": "storage_13", "label": "Rad-Hard NAND Flash 039", "category": "storage"}}, {"data": {"id": "storage_14", "label": "Rad-Hard NOR Flash 039", "category": "storage"}}, {"data": {"id": "communication_15", "label": "SpaceFibre Controller 119", "category": "communication"}}, {"data": {"id": "communication_16", "label": "SpaceWire Controller (Rad-Hard) 119", "category": "communication"}}, {"data": {"source": "cpu_7", "target": "gpu_9"}}, {"data": {"source": "cpu_7", "target": "gpu_10"}}, {"data": {"source": "cpu_8", "target": "gpu_9"}}, {"data": {"source": "cpu_8", "target": "gpu_10"}}, {"data": {"source": "cpu_7", "target": "memory_11"}}, {"data": {"source": "cpu_7", "target": "memory_12"}}, {"data": {"source": "cpu_8", "target": "memory_11"}}, {"data": {"source": "cpu_8", "target": "memory_12"}}, {"data": {"source": "cpu_7", "target": "storage_13"}}, {"data": {"source": "cpu_7", "target": "storage_14"}}, {"data": {"source": "cpu_8", "target": "storage_13"}}, {"data": {"source": "cpu_8", "target": "storage_14"}}, {"data": {"source": "cpu_7", "target": "communication_15"}}, {"data": {"source": "cpu_7", "target": "communication_16"}}, {"data": {"source": "cpu_8", "target": "communication_15"}}, {"data": {"source": "cpu_8", "target": "communication_16"}}, {"data": {"source": "sensors_0", "target": "cpu_7"}}, {"data": {"source": "sensors_0", "target": "cpu_8"}}, {"data": {"source": "sensors_1", "target": "cpu_7"}}, {"data": {"source": "sensors_1", "target": "cpu_8"}}, {"data": {"source": "sensors_2", "target": "cpu_7"}}, {"data": {"source": "sensors_2", "target": "cpu_8"}}, {"data": {"source": "sensors_3", "target": "cpu_7"}}, {"data": {"source": "sensors_3", "target": "cpu_8"}}, {"data": {"source": "sensors_0", "target": "communication_15"}}, {"data": {"source": "sensors_0", "target": "communication_16"}}, {"data": {"source": "sensors_1", "target": "communication_15"}}, {"data": {"source": "sensors_1", "target": "communication_16"}}, {"data": {"source": "sensors_2", "target": "communication_15"}}, {"data": {"source": "sensors_2", "target": "communication_16"}}, {"data": {"source": "sensors_3", "target": "communication_15"}}, {"data": {"source": "sensors_3", "target": "communication_16"}}, {"data": {"source": "controllers_4", "target": "sensors_0"}}, {"data": {"source": "controllers_4", "target": "sensors_1"}}, {"data": {"source": "controllers_4", "target": "sensors_2"}}, {"data": {"source": "controllers_4", "target": "sensors_3"}}, {"data": {"source": "controllers_5", "target": "sensors_0"}}, {"data": {"source": "controllers_5", "target": "sensors_1"}}, {"data": {"source": "controllers_5", "target": "sensors_2"}}, {"data": {"source": "controllers_5", "target": "sensors_3"}}, {"data": {"source": "controllers_6", "target": "sensors_0"}}, {"data": {"source": "controllers_6", "target": "sensors_1"}}, {"data": {"source": "controllers_6", "target": "sensors_2"}}, {"data": {"source": "controllers_6", "target": "sensors_3"}}, {"data": {"source": "controllers_4", "target": "cpu_7"}}, {"data": {"source": "controllers_4", "target": "cpu_8"}}, {"data": {"source": "controllers_5", "target": "cpu_7"}}, {"data": {"source": "controllers_5", "target": "cpu_8"}}, {"data": {"source": "controllers_6", "target": "cpu_7"}}, {"data": {"source": "controllers_6", "target": "cpu_8"}}];
+const cy = cytoscape({
+  container: document.getElementById('cy'),
+  elements: elements,
+  style: [
+    { selector: 'node', style: { 'label': 'data(label)', 'text-valign': 'center', 'text-halign': 'center', 'color': '#222', 'width': 100, 'height': 40, 'shape': 'round-rectangle', 'font-size': 12 } },
+    { selector: 'edge', style: { 'width': 2, 'line-color': '#888', 'target-arrow-color': '#888', 'target-arrow-shape': 'triangle', 'curve-style': 'bezier' } },
+    { selector: 'node[category = "cpu"]', style: { 'background-color': '#4fc3f7' } },
+    { selector: 'node[category = "gpu"]', style: { 'background-color': '#81d4fa' } },
+    { selector: 'node[category = "memory"]', style: { 'background-color': '#29b6f6' } },
+    { selector: 'node[category = "storage"]', style: { 'background-color': '#0288d1' } },
+    { selector: 'node[category = "sensors"]', style: { 'background-color': '#ffb74d' } },
+    { selector: 'node[category = "communication"]', style: { 'background-color': '#4caf50' } },
+    { selector: 'node[category = "controllers"]', style: { 'background-color': '#ba68c8' } },
+  ],
+  layout: { name: 'dagre', rankDir: 'LR', nodeSep: 50, rankSep: 120 }
+});
+</script>
+</html>

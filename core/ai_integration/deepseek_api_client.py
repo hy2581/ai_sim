@@ -69,6 +69,23 @@ class DeepSeekAPIClient:
         print(f"   模型: {self.config.model}")
         print(f"   接口: {'外部API' if model_type == 'deepseek-api' else '本地Ollama'}")
     
+    def _truncate(self, text: str, limit: int = 12000) -> str:
+        if not text:
+            return ""
+        t = str(text)
+        return t[:limit]
+
+    def _post_with_retries(self, url: str, payload: dict, timeout: int = 120, retries: int = 3) -> requests.Response:
+        last_exc = None
+        for i in range(retries):
+            try:
+                resp = self.session.post(url, json=payload, timeout=timeout)
+                return resp
+            except requests.exceptions.RequestException as e:
+                last_exc = e
+                time.sleep(1 + i)
+        raise last_exc
+
     def parse_natural_language_requirements(self, user_input: str) -> Dict[str, Any]:
         """解析自然语言需求描述"""
         print(f"正在解析用户需求: {user_input}")
@@ -316,34 +333,37 @@ class DeepSeekAPIClient:
         payload = {
             "model": "deepseek-chat",
             "messages": [
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_message}
+                {"role": "system", "content": self._truncate(system_prompt)},
+                {"role": "user", "content": self._truncate(user_message)}
             ],
-            "max_tokens": self.config.max_tokens,
+            "max_tokens": min(self.config.max_tokens, 4000),
             "temperature": self.config.temperature
         }
-        
         try:
-            response = self.session.post(
+            response = self._post_with_retries(
                 "https://api.deepseek.com/v1/chat/completions",
-                json=payload,
-                timeout=60
+                payload,
+                timeout=120,
+                retries=3
             )
             response.raise_for_status()
-            
             result = response.json()
-            content = result['choices'][0]['message']['content']
-            
-            # 清理可能的格式问题
+            content = result.get('choices', [{}])[0].get('message', {}).get('content', '')
             content = content.strip()
             if content.startswith('```json'):
                 content = content[7:]
             if content.endswith('```'):
                 content = content[:-3]
             content = content.strip()
-            
             return content
-            
+        except requests.exceptions.HTTPError as e:
+            try:
+                err = response.json()
+                msg = err.get('error', str(e))
+                print(f"DeepSeek API错误: {msg}")
+            except Exception:
+                print(f"DeepSeek API错误: {e}")
+            raise
         except requests.exceptions.RequestException as e:
             print(f"DeepSeek API请求失败: {e}")
             raise
